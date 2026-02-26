@@ -7,6 +7,7 @@ import frc.robot.subsystems.shooter.Shooter;
 public class Aimbot extends Command {
     private final Drive drive;
     private final Shooter shooter;
+    private double turretToRobot;
 
     public Aimbot(Drive drive, Shooter shooter) {
         this.shooter = shooter;
@@ -22,11 +23,13 @@ public class Aimbot extends Command {
 
     //Control logic: While button held
         //set shooter state to be: turret(drive.getAngleToHub) and shooterSpeed(drive.getSpeedForHub)
+        //REMEMBER TO ADD THE OFFSET FROM TURRET TO ROBOT
     @Override
     public void execute() {
+        turretToRobot = shooter.getTurretAngle();
         shooter.setTargetState(
             drive.getSpeedForHub(),
-            drive.getRobotAngleToHub());
+            drive.getRobotAngleToHub() + turretToRobot);
     }
 
 

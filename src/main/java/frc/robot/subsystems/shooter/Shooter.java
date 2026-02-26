@@ -32,6 +32,10 @@ public class Shooter extends SubsystemBase {
     return run(() -> io.runAtTarget());
   }
 
+  public double getTurretAngle() {
+    return io.getTurretAngle();
+  }
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);
