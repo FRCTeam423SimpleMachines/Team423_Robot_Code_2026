@@ -28,4 +28,9 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static class IntakeConstants {
+    public static final int kIntakeCANID = 24;
+    public static final int kIntake2CANID = 25;
+  }
 }
