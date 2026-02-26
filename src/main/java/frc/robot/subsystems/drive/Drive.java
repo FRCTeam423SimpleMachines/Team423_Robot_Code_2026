@@ -42,11 +42,13 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.util.LocalADStarAK;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.PhotonUtils;
 
 public class Drive extends SubsystemBase {
   // TunerConstants doesn't include these constants, so they are declared locally
@@ -359,5 +361,14 @@ public class Drive extends SubsystemBase {
 
   public double getLinearSpeed() {
     return Math.hypot(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond);
+  }
+
+  public double getAngleToHub() {
+    return PhotonUtils.getYawToPose(new Pose2d(), ShooterConstants.hubPose).getDegrees();
+  }
+
+  public double getSpeedForHub() {
+    //build logic here to do the hub distance to speed calculation
+    return 0.0;
   }
 }

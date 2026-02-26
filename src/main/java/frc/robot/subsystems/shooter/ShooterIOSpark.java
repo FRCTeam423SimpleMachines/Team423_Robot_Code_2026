@@ -58,7 +58,7 @@ public class ShooterIOSpark implements ShooterIO {
 
   @Override
   public double getTurretAngle() {
-    return turretEncoder.getPosition() / 42;
+    return turretEncoder.getPosition() / 42.0;
   }
 
   @Override
@@ -133,8 +133,5 @@ public class ShooterIOSpark implements ShooterIO {
   }
 
   //TODO: Use actual robot pose and hub pose, also ensure that the pose2d is the robot pose with the rotation of the turret
-  @Override
-  public double getAngleToHub() {
-    return PhotonUtils.getYawToPose(new Pose2d(), ShooterConstants.hubPose).getDegrees();
-  }
+  
 }

@@ -190,6 +190,10 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+
+    //Control logic: While button held
+        //set shooter state to be: turret(Drive.getAngleToHub) and shooterSpeed(Drive.getSpeedForHub)
   }
 
   /**
