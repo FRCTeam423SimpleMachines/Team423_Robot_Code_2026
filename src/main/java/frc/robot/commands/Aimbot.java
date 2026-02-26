@@ -35,7 +35,8 @@ public class Aimbot extends Command {
 
     @Override
     public boolean isFinished() {
-        //this should essentially return "are there any balls in the hopper"
+        //this should essentially return opposite of "are there any balls in the hopper"
+        // return (shooter.emptyHopper());
         //OR it might be interrupted by crossing the hub line?
         return false;
     }
