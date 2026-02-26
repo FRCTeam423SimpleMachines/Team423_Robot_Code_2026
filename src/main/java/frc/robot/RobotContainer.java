@@ -31,6 +31,10 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.intake.IntakeIOSpark;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOSim;
+import frc.robot.subsystems.shooter.ShooterIOSpark;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
@@ -48,6 +52,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Intake intake;
   private final Vision vision;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -74,6 +79,7 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVision("frontcamera", VisionConstants.robotToCameraFront));
+        shooter = new Shooter(new ShooterIOSpark());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -106,6 +112,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIOSim());
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
+        shooter = new Shooter(new ShooterIOSim());
         break;
 
       default:
@@ -120,6 +127,7 @@ public class RobotContainer {
         intake = new Intake(new IntakeIO() {});
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
+        shooter = new Shooter(new ShooterIO() {});
         break;
     }
 
@@ -192,8 +200,16 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
 
-    //Control logic: While button held
-        //set shooter state to be: turret(Drive.getAngleToHub) and shooterSpeed(Drive.getSpeedForHub)
+
+    //THIS WON'T WORK BECAUSE IT ISN'T RUNNING CONTINOUSLY, RUNCOMMAND BAD
+    // controller
+    //     .leftTrigger(0.5)
+    //     .whileTrue(
+    //         new RunCommand(
+    //             () -> shooter.setTargetState(
+    //                 drive.getSpeedForHub(),
+    //                 drive.getRobotAngleToHub()), 
+    //             shooter));
   }
 
   /**

@@ -363,7 +363,11 @@ public class Drive extends SubsystemBase {
     return Math.hypot(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond);
   }
 
-  public double getAngleToHub() {
+
+
+  //need logic here to make it non-continous, since the angle to the 
+  //
+  public double getRobotAngleToHub() {
     return PhotonUtils.getYawToPose(new Pose2d(), ShooterConstants.hubPose).getDegrees();
   }
 
