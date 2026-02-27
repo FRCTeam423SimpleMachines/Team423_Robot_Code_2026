@@ -368,13 +368,13 @@ public class Drive extends SubsystemBase {
   //need logic here to make it non-continous, since the angle to the   (not sure what I was saying here, PID should handle this?)
   //
   public double getRobotAngleToHub() {
-    return PhotonUtils.getYawToPose(new Pose2d(), ShooterConstants.hubPose).getDegrees();
+    return PhotonUtils.getYawToPose(getPose(), Constants.hubPose).getDegrees();
   }
 
   public double getSpeedForHub() {
     //build logic here to do the hub distance to speed calculation
     //Hardcode hub pose, put in constants
-    double distance = PhotonUtils.getDistanceToPose(getPose(), ShooterConstants.hubPose);
+    double distance = PhotonUtils.getDistanceToPose(getPose(), Constants.hubPose);
     //add simplified motion equation here: 
     return 0.0;
   }

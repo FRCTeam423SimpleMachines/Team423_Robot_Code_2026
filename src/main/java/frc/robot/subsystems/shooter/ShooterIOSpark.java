@@ -131,7 +131,5 @@ public class ShooterIOSpark implements ShooterIO {
     double output = (turretPID.calculate(getTurretAngle(), angle));
     turret.set(output);
   }
-
-  //TODO: Use actual robot pose and hub pose, also ensure that the pose2d is the robot pose with the rotation of the turret
   
 }

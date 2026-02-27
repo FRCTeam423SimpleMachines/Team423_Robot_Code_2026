@@ -2,12 +2,14 @@ package frc.robot.commands;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.vision.Vision;
@@ -24,6 +26,7 @@ public class SearchAndDestroy extends Command {
   Command dynamicPathCommand;
   private boolean dynamicCommandStarted = false;
   private LinkedList<Boolean> balls;
+  private PathConstraints constraints = new PathConstraints(3.0, 3.0, Units.degreesToRadians(540) , Units.degreesToRadians(720));
 
   public SearchAndDestroy(Drive drive, Vision vision) {
     this.drive = drive;
@@ -156,7 +159,7 @@ public class SearchAndDestroy extends Command {
         PathPlannerPath path =
             new PathPlannerPath(
                 waypoints,
-                DriveConstants.kDefaultConstraints,
+                constraints,
                 null,
                 new GoalEndState(0.0, poses[poses.length - 1].getRotation()));
         path.preventFlipping = true;
@@ -227,7 +230,7 @@ public class SearchAndDestroy extends Command {
     PathPlannerPath path =
         new PathPlannerPath(
             waypoints,
-            DriveConstants.kDefaultConstraints,
+            constraints,
             null,
             new GoalEndState(drive.getLinearSpeed(), approachPose.getRotation()));
     path.preventFlipping = true;

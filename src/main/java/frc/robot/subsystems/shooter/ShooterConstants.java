@@ -19,5 +19,4 @@ public class ShooterConstants {
   public static final double kS = 0.0;
 
   public static final double turretRotationsPerDegree = 42.0;
-  public static final Pose2d hubPose = new Pose2d();
 }
