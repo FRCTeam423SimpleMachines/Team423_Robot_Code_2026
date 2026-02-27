@@ -3,11 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.util.ShooterUtil;
 
 public class Aimbot extends Command {
     private final Drive drive;
     private final Shooter shooter;
-    private double turretToRobot;
+    private double turretAngle;
 
     public Aimbot(Drive drive, Shooter shooter) {
         this.shooter = shooter;
@@ -26,10 +27,10 @@ public class Aimbot extends Command {
         //REMEMBER TO ADD THE OFFSET FROM TURRET TO ROBOT
     @Override
     public void execute() {
-        turretToRobot = shooter.getTurretAngle();
+        turretAngle = shooter.getTurretAngle();
         shooter.setTargetState(
-            drive.getSpeedForHub(),
-            drive.getRobotAngleToHub() + turretToRobot);
+            ShooterUtil.calculateRPMForDistance(),
+            ShooterUtil.getRobotAngleToHub() + turretAngle);
     }
 
 

@@ -36,4 +36,5 @@ public final class Constants {
   }
 
   public static final Pose2d hubPose = new Pose2d();
+  public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
 }
