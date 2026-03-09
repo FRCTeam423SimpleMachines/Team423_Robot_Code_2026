@@ -26,7 +26,8 @@ public class SearchAndDestroy extends Command {
   Command dynamicPathCommand;
   private boolean dynamicCommandStarted = false;
   private LinkedList<Boolean> balls;
-  private PathConstraints constraints = new PathConstraints(3.0, 3.0, Units.degreesToRadians(540) , Units.degreesToRadians(720));
+  private PathConstraints constraints =
+      new PathConstraints(3.0, 3.0, Units.degreesToRadians(540), Units.degreesToRadians(720));
 
   public SearchAndDestroy(Drive drive, Vision vision) {
     this.drive = drive;

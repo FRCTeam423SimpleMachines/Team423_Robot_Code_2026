@@ -17,7 +17,8 @@ public class IntakeIOSpark implements IntakeIO {
     m_intakeMotor2 = new SparkMax(kIntake2CANID, SparkMax.MotorType.kBrushless);
     SparkMaxConfig config = new SparkMaxConfig();
     config.smartCurrentLimit(20);
-    m_intakeMotor2.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_intakeMotor2.configure(
+        config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   @Override

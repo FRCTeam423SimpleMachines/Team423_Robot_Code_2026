@@ -199,16 +199,14 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-
-
-    //THIS WON'T WORK BECAUSE IT ISN'T RUNNING CONTINOUSLY, RUNCOMMAND BAD
+    // THIS WON'T WORK BECAUSE IT ISN'T RUNNING CONTINOUSLY, RUNCOMMAND BAD
     // controller
     //     .leftTrigger(0.5)
     //     .whileTrue(
     //         new RunCommand(
     //             () -> shooter.setTargetState(
     //                 drive.getSpeedForHub(),
-    //                 drive.getRobotAngleToHub()), 
+    //                 drive.getRobotAngleToHub()),
     //             shooter));
   }
 

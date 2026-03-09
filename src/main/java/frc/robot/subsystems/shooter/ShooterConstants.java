@@ -1,11 +1,9 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.math.geometry.Pose2d;
-
 public class ShooterConstants {
-  public static final int shooterCanID = 11;
-  public static final int secondShooterCanID = 12;
-  public static final int turretCanID = 13;
+  public static final int shooterCanID = 63;
+  public static final int secondShooterCanID = 62;
+  public static final int turretCanID = 61;
 
   public static final double kP = 1.5;
   public static final double kI = 1.0;

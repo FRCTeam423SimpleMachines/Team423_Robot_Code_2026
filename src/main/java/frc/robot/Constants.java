@@ -31,8 +31,8 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final int kIntakeCANID = 24;
-    public static final int kIntake2CANID = 25;
+    public static final int kIntakeCANID = 54;
+    public static final int kIntake2CANID = 55;
   }
 
   public static final Pose2d hubPose = new Pose2d();

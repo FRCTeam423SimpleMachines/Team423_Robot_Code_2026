@@ -2,15 +2,12 @@ package frc.robot.subsystems.shooter;
 
 import static frc.robot.util.SparkUtil.ifOk;
 
-import org.photonvision.PhotonUtils;
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ShooterIOSpark implements ShooterIO {
@@ -74,7 +71,7 @@ public class ShooterIOSpark implements ShooterIO {
   @Override
   public void magnetTest() {
     turret.set(0.5);
-    if(magnometer1.get()) {
+    if (magnometer1.get()) {
       turret.set(0);
       turretEncoder.setPosition(0);
     }
@@ -131,5 +128,4 @@ public class ShooterIOSpark implements ShooterIO {
     double output = (turretPID.calculate(getTurretAngle(), angle));
     turret.set(output);
   }
-  
 }

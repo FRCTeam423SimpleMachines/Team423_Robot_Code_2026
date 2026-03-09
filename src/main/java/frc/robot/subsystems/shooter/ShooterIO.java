@@ -17,7 +17,9 @@ public interface ShooterIO {
 
   public default void updateInputs(ShooterIOInputs inputs) {}
 
-  public default double getTurretAngle() { return 0.0; }
+  public default double getTurretAngle() {
+    return 0.0;
+  }
 
   public default void runAtSpeed(double speed) {}
 
@@ -41,5 +43,7 @@ public interface ShooterIO {
 
   public default void magnetTest() {}
 
-  public default double getAngleToHub() { return 0.0; }
+  public default double getAngleToHub() {
+    return 0.0;
+  }
 }
