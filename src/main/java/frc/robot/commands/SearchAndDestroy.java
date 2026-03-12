@@ -109,7 +109,7 @@ public class SearchAndDestroy extends Command {
     robotPose = drive.getPose();
 
     // VisionConstants provides a robot->camera transform (robotToCameraFront).
-    Transform3d robotToCameraTransform = VisionConstants.robotToCameraFront;
+    Transform3d robotToCameraTransform = VisionConstants.robotToCameraBack;
     Transform2d robotToCamera =
         new Transform2d(
             robotToCameraTransform.getX(),

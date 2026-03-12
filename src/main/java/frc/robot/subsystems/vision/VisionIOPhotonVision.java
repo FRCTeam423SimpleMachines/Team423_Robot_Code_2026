@@ -51,7 +51,7 @@ public class VisionIOPhotonVision implements VisionIO {
     for (var result : camera.getAllUnreadResults()) {
       // Update latest target observation
       if (result.hasTargets()) {
-        if (!(camera.getName().equals(cameraFront))) {
+        if (!(camera.getName().equals(cameraBack))) {
           inputs.latestTargetObservation =
               new TargetObservation(
                   Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
@@ -69,10 +69,10 @@ public class VisionIOPhotonVision implements VisionIO {
       }
 
       // If this is the front camera and it has a ball target, compute the camera->ball translation
-      if (camera.getName().equals(cameraFront) && result.hasTargets()) {
+      if (camera.getName().equals(cameraBack) && result.hasTargets()) {
         var best = result.getBestTarget();
         double distance =
-            (VisionConstants.robotToCameraFront.getZ()
+            (VisionConstants.robotToCameraBack.getZ()
                     - edu.wpi.first.math.util.Units.inchesToMeters(3.0))
                 / Math.tan(Math.abs(Math.toRadians(best.getPitch())));
         var trans =
