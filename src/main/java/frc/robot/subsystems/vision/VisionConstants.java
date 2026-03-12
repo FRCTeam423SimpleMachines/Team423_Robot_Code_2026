@@ -33,30 +33,30 @@ public class VisionConstants {
 
   // Robot to camera transforms
   // (Not used by Limelight, configure in web UI instead)
-  public static Transform3d robotToCameraFrontLeft =
-      new Transform3d(
-          Units.inchesToMeters(11.5),
-          Units.inchesToMeters(11),
-          Units.inchesToMeters(9.25),
-          new Rotation3d(0.0, 0.0, Math.PI / 4.0));
-  public static Transform3d robotToCameraFrontRight =
-      new Transform3d(
-          Units.inchesToMeters(12.5),
-          Units.inchesToMeters(-11.5),
-          Units.inchesToMeters(9.25),
-          new Rotation3d(0.0, 0.0, -Math.PI / 4.0));
-  public static Transform3d robotToCameraBackLeft =
-      new Transform3d(
-          Units.inchesToMeters(-11.5),
-          Units.inchesToMeters(10.5),
-          Units.inchesToMeters(9.75),
-          new Rotation3d(0.0, 0.0, 3.0 * Math.PI / 4.0));
   public static Transform3d robotToCameraBackRight =
       new Transform3d(
-          Units.inchesToMeters(-7.875),
-          Units.inchesToMeters(-4),
-          Units.inchesToMeters(8),
-          new Rotation3d(0.0, 0.0, Math.PI));
+          Units.inchesToMeters(3),
+          Units.inchesToMeters(13),
+          Units.inchesToMeters(14.25),
+          new Rotation3d(0.0, 0.0, -3.0 * Math.PI / 4.0));
+  public static Transform3d robotToCameraBackLeft =
+      new Transform3d(
+          Units.inchesToMeters(3),
+          Units.inchesToMeters(-13),
+          Units.inchesToMeters(14.25),
+          new Rotation3d(0.0, 0.0, 3.0 * Math.PI / 4.0));
+  public static Transform3d robotToCameraFrontRight =
+      new Transform3d(
+          Units.inchesToMeters(-13.25),
+          Units.inchesToMeters(13),
+          Units.inchesToMeters(14.25),
+          new Rotation3d(0.0, 0.0, -Math.PI / 4.0));
+  public static Transform3d robotToCameraFrontLeft =
+      new Transform3d(
+          Units.inchesToMeters(-13.25),
+          Units.inchesToMeters(-13),
+          Units.inchesToMeters(14.25),
+          new Rotation3d(0.0, 0.0, Math.PI / 4.0));
   public static Transform3d robotToCameraFront =
       new Transform3d(
           Units.inchesToMeters(7.5),

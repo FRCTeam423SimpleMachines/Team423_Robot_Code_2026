@@ -78,7 +78,10 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOPhotonVision("frontcamera", VisionConstants.robotToCameraFront));
+                new VisionIOPhotonVision("frontleft", VisionConstants.robotToCameraFrontLeft),
+                new VisionIOPhotonVision("frontright", VisionConstants.robotToCameraFrontRight),
+                new VisionIOPhotonVision("backleft", VisionConstants.robotToCameraBackLeft),
+                new VisionIOPhotonVision("backright", VisionConstants.robotToCameraBackRight));
         shooter = new Shooter(new ShooterIOSpark());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
