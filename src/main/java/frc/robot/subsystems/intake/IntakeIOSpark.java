@@ -1,7 +1,5 @@
 package frc.robot.subsystems.intake;
 
-import static frc.robot.Constants.IntakeConstants.*;
-
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
@@ -13,8 +11,8 @@ public class IntakeIOSpark implements IntakeIO {
   private final SparkFlex m_intakeMotor;
 
   public IntakeIOSpark() {
-    m_intakeMotor = new SparkFlex(kIntakeCANID, SparkMax.MotorType.kBrushless);
-    m_intakeMotor2 = new SparkMax(kIntake2CANID, SparkMax.MotorType.kBrushless);
+    m_intakeMotor = new SparkFlex(IntakeConstants.kIntakeCANID, SparkMax.MotorType.kBrushless);
+    m_intakeMotor2 = new SparkMax(IntakeConstants.kIntake2CANID, SparkMax.MotorType.kBrushless);
     SparkMaxConfig config = new SparkMaxConfig();
     config.smartCurrentLimit(20);
     m_intakeMotor2.configure(

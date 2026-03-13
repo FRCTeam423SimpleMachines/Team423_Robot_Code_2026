@@ -59,13 +59,13 @@ public class VisionConstants {
           new Rotation3d(0.0, 0.0, -3.0 * Math.PI / 4.0));
   public static Transform3d robotToCameraBack =
       new Transform3d(
-          Units.inchesToMeters(7.5),
+          Units.inchesToMeters(0),
           Units.inchesToMeters(-2),
           Units.inchesToMeters(14),
           new Rotation3d(0.0, 0.0, 0.0));
 
   // Basic filtering thresholds
-  public static double maxAmbiguity = 0.05;
+  public static double maxAmbiguity = 0.10;
   public static double maxZError = 0.75;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag

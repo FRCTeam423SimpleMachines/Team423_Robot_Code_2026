@@ -17,4 +17,6 @@ public class ShooterConstants {
   public static final double kS = 0.0;
 
   public static final double turretRotationsPerDegree = 42.0;
+
+  public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
 }

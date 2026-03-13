@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -29,12 +28,4 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-
-  public static class IntakeConstants {
-    public static final int kIntakeCANID = 54;
-    public static final int kIntake2CANID = 55;
-  }
-
-  public static final Pose2d hubPose = new Pose2d();
-  public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
 }

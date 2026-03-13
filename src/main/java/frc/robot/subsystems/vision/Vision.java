@@ -77,7 +77,7 @@ public class Vision extends SubsystemBase {
 
   public Translation2d getTranslationToBall() {
     double distance =
-        (VisionConstants.robotToCameraFront.getZ() - Units.inchesToMeters(3.0))
+        (VisionConstants.robotToCameraBack.getZ() - Units.inchesToMeters(3.0))
             / Math.tan(Math.abs(inputs[0].ballTargetObservation.ty().getRadians()));
     return PhotonUtils.estimateCameraToTargetTranslation(
         distance, inputs[0].ballTargetObservation.tx());
