@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -34,7 +33,7 @@ import frc.robot.subsystems.intake.IntakeIOSpark;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOSim;
-import frc.robot.subsystems.shooter.ShooterIOSpark;
+import frc.robot.subsystems.shooter.ShooterIOTalonFX;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
@@ -82,7 +81,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision("frontright", VisionConstants.robotToCameraFrontRight),
                 new VisionIOPhotonVision("backleft", VisionConstants.robotToCameraBackLeft),
                 new VisionIOPhotonVision("backright", VisionConstants.robotToCameraBackRight));
-        shooter = new Shooter(new ShooterIOSpark());
+        shooter = new Shooter(new ShooterIOTalonFX());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -172,7 +171,7 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    intake.setDefaultCommand(new RunCommand(() -> intake.setSpeed(-0.5), intake));
+    // intake.setDefaultCommand(new RunCommand(() -> intake.setSpeed(-0.5), intake));
 
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
