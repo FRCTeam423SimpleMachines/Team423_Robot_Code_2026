@@ -1,7 +1,12 @@
 package frc.robot.commands;
 
+import java.util.Optional;
+
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.FieldConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.util.ShooterUtil;
@@ -12,10 +17,11 @@ public class Aimbot extends Command {
   private double turretAngle;
   private Pose2d targetPose;
 
-  public Aimbot(Drive drive, Shooter shooter, Pose2d targetPose) {
+  public Aimbot(Drive drive, Shooter shooter, FieldConstants.FieldTarget target) {
     this.shooter = shooter;
     this.drive = drive;
-    this.targetPose = targetPose;
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    this.targetPose = FieldConstants.getTargetPose(target, ally.orElse(DriverStation.Alliance.Red));
     addRequirements(shooter);
   }
 
