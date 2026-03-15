@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.FieldConstants.FieldTarget;
+import frc.robot.commands.Aimbot;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.SearchAndDestroy;
 import frc.robot.generated.TunerConstants;
@@ -172,6 +174,8 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // intake.setDefaultCommand(new RunCommand(() -> intake.setSpeed(-0.5), intake));
+
+    shooter.setDefaultCommand(new Aimbot(drive, shooter, FieldTarget.HUB));
 
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.

@@ -35,15 +35,9 @@ public interface ShooterIO {
 
   public default void runShooter(double speed) {}
 
-  public default void setSecondFlywheel(double speed) {}
-
   public default void setTurretAngle(double angle) {}
 
   public default void setTurretSpeed(double speed) {}
 
-  public default void magnetTest() {}
-
-  public default double getAngleToHub() {
-    return 0.0;
-  }
+  public default void zeroTurret() {}
 }

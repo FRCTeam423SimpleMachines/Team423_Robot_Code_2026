@@ -1,88 +1,102 @@
 package frc.robot.subsystems.shooter;
 
+import static frc.robot.util.PhoenixUtil.tryUntilOk;
+
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ShooterIOTalonFX implements ShooterIO {
-  private final TalonFX shooter = new TalonFX(ShooterConstants.shooterCanID);
-  private final TalonFX shooter2 = new TalonFX(ShooterConstants.secondShooterCanID);
-  private final TalonFX turret = new TalonFX(ShooterConstants.turretCanID);
+  private final TalonFX m_shooter;
+  private final TalonFX m_shooter2;
+  private final TalonFX m_turret;
 
-  private final PIDController pid =
-      new PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD);
-  private final SimpleMotorFeedforward feedforward =
-      new SimpleMotorFeedforward(ShooterConstants.kS, ShooterConstants.kV);
-  private final PIDController turretPID =
-      new PIDController(
-          ShooterConstants.turretkP, ShooterConstants.turretkI, ShooterConstants.turretkD);
-  // private final SparkFlex shooter2 =
-  //   new SparkFlex(ShooterConstants.secondShooterCanID, MotorType.kBrushless);
+  private final DigitalInput homeFlag;
 
-  private final DigitalInput laser1 = new DigitalInput(0);
-  private final DigitalInput laser2 = new DigitalInput(1);
-  private final DigitalInput magnometer1 = new DigitalInput(2);
+  private static final Slot0Configs turretGains =
+      new Slot0Configs()
+          .withKP(ShooterConstants.turretkP)
+          .withKI(ShooterConstants.turretkI)
+          .withKD(ShooterConstants.turretkD);
+
+  private static final Slot0Configs flywheeelGains =
+      new Slot0Configs()
+          .withKP(ShooterConstants.shooterkP)
+          .withKI(ShooterConstants.shooterkI)
+          .withKD(ShooterConstants.shooterkD)
+          .withKS(ShooterConstants.shooterkS)
+          .withKV(ShooterConstants.shooterkV)
+          .withKA(ShooterConstants.shooterkA)
+          .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+
+  final PositionVoltage m_turret_request = new PositionVoltage(0).withSlot(0);
+
+  final VelocityVoltage m_shooter_request = new VelocityVoltage(0).withSlot(0);
 
   private double TargetRPM = 0;
   public double TurretTargetAngle = 0;
 
-  public ShooterIOTalonFX() {}
+  public ShooterIOTalonFX() {
+    m_shooter = new TalonFX(ShooterConstants.shooterCanID);
+    m_shooter2 = new TalonFX(ShooterConstants.secondShooterCanID);
+    m_turret = new TalonFX(ShooterConstants.turretCanID);
+    tryUntilOk(5, () -> m_shooter.getConfigurator().apply(flywheeelGains));
+    tryUntilOk(
+        5,
+        () ->
+            m_shooter2.setControl(
+                new Follower(ShooterConstants.shooterCanID, MotorAlignmentValue.Opposed)));
+    tryUntilOk(5, () -> m_turret.getConfigurator().apply(turretGains));
+    homeFlag = new DigitalInput(0);
+  }
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    inputs.flywheelRPM = shooter.getVelocity().getValueAsDouble();
+    inputs.flywheelRPM = m_shooter.getVelocity().getValueAsDouble();
     inputs.turretAngle = getTurretAngle();
     inputs.targetRPM = TargetRPM;
     inputs.turretTargetAngle = TurretTargetAngle;
-    pid.setTolerance(500);
-    turretPID.setTolerance(3);
-    inputs.laser1 = laser1.get();
-    inputs.laser2 = laser2.get();
-    inputs.magnet1 = magnometer1.get();
+    inputs.magnet1 = homeFlag.get();
   }
 
   @Override
   public double getTurretAngle() {
-    return turret.getPosition().getValueAsDouble() / ShooterConstants.turretRotationsPerDegree;
+    return m_turret.getPosition().getValueAsDouble() / ShooterConstants.turretRotationsPerDegree;
   }
 
   @Override
   public void runShooter(double voltage) {
-    shooter.setVoltage(voltage);
+    m_shooter.setVoltage(voltage);
   }
 
   @Override
   public void runAtSpeed(double speed) {
-    shooter.set(speed);
+    m_shooter.set(speed);
   }
 
   @Override
-  public void magnetTest() {
-    turret.set(0.5);
-    if (magnometer1.get()) {
-      turret.set(0);
-      turret.setPosition(0);
+  public void zeroTurret() {
+    m_turret.set(0.5);
+    if (homeFlag.get()) {
+      m_turret.set(0);
+      m_turret.setPosition(0);
     }
   }
 
   @Override
   public void runAtTarget() {
-    double output =
-        ((pid.calculate(shooter.getVelocity().getValueAsDouble(), TargetRPM)
-                + feedforward.calculate(TargetRPM))
-            / 6000.0);
-    shooter.set(output);
-    shooter2.set(-output);
-    double turretOutput = (turretPID.calculate(getTurretAngle(), TurretTargetAngle));
-    turret.set(turretOutput);
+    m_shooter.setControl(m_shooter_request.withVelocity(TargetRPM));
   }
 
   @Override
   public void runAtTarget(double RPM) {
-    shooter.set(
-        (pid.calculate(shooter.getVelocity().getValueAsDouble(), RPM) + feedforward.calculate(RPM))
-            / 6000.0);
+    TargetRPM = RPM;
+    m_shooter.setControl(m_shooter_request.withVelocity(RPM));
   }
 
   @Override
@@ -99,25 +113,16 @@ public class ShooterIOTalonFX implements ShooterIO {
   @Override
   public void setTargetRun(double RPM) {
     TargetRPM = RPM;
-    shooter.set(
-        (pid.calculate(shooter.getVelocity().getValueAsDouble(), TargetRPM)
-                + feedforward.calculate(TargetRPM))
-            / 6000.0);
-  }
-
-  @Override
-  public void setSecondFlywheel(double speed) {
-    shooter2.set(speed);
   }
 
   @Override
   public void setTurretSpeed(double speed) {
-    turret.set(speed);
+    m_turret.set(speed);
   }
 
   @Override
   public void setTurretAngle(double angle) {
-    double output = (turretPID.calculate(getTurretAngle(), angle));
-    turret.set(output);
+    m_turret.setControl(
+        m_turret_request.withPosition(angle * ShooterConstants.turretRotationsPerDegree));
   }
 }

@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import java.util.Optional;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -10,6 +8,7 @@ import frc.robot.FieldConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.util.ShooterUtil;
+import java.util.Optional;
 
 public class Aimbot extends Command {
   private final Drive drive;
@@ -39,7 +38,7 @@ public class Aimbot extends Command {
     turretAngle = shooter.getTurretAngle();
     // shooter.setTargetState(
     // ShooterUtil.calculateRPMForDistance(),
-    //ShooterUtil.getRobotAngleToPose(targetPose) + turretAngle);
+    // ShooterUtil.getRobotAngleToPose(targetPose) + turretAngle);
     double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose) + turretAngle;
     System.out.println("Target Angle: " + targetAngle);
   }
