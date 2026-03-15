@@ -124,5 +124,11 @@ public class ShooterIOTalonFX implements ShooterIO {
   public void setTurretAngle(double angle) {
     m_turret.setControl(
         m_turret_request.withPosition(angle * ShooterConstants.turretRotationsPerDegree));
+    System.out.println(angle * ShooterConstants.turretRotationsPerDegree);
+  }
+
+  @Override
+  public void setTargetTurretAngle(double angle) {
+    TurretTargetAngle = angle;
   }
 }

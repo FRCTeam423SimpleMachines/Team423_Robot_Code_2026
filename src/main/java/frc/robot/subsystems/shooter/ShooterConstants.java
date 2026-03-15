@@ -9,8 +9,8 @@ public class ShooterConstants {
   public static final double shooterkI = 0.0;
   public static final double shooterkD = 0.0;
 
-  public static final double turretkP = 2.4;
-  public static final double turretkI = 0.0;
+  public static final double turretkP = 0.8;
+  public static final double turretkI = 0.1;
   public static final double turretkD = 0.1;
 
   public static final double shooterkV = 0.0;

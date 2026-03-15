@@ -35,12 +35,13 @@ public class Aimbot extends Command {
   // REMEMBER TO ADD THE OFFSET FROM TURRET TO ROBOT
   @Override
   public void execute() {
-    turretAngle = shooter.getTurretAngle();
+    // turretAngle = shooter.getTurretAngle();
     // shooter.setTargetState(
     // ShooterUtil.calculateRPMForDistance(),
     // ShooterUtil.getRobotAngleToPose(targetPose) + turretAngle);
-    double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose) + turretAngle;
-    System.out.println("Target Angle: " + targetAngle);
+  double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose, shooter.getTargetRPM());
+    shooter.setTargetTurretAngle(targetAngle);
+    shooter.setTurretAngle(targetAngle);
   }
 
   @Override

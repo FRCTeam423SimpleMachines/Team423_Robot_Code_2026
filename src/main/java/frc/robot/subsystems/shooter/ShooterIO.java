@@ -39,5 +39,7 @@ public interface ShooterIO {
 
   public default void setTurretSpeed(double speed) {}
 
+  public default void setTargetTurretAngle(double angle) {}
+
   public default void zeroTurret() {}
 }
