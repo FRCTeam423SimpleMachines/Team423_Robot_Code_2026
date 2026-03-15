@@ -32,11 +32,6 @@ public class Shooter extends SubsystemBase {
     return io.getTurretAngle();
   }
 
-  /** Returns the currently configured target RPM from the IO inputs. */
-  public double getTargetRPM() {
-    return inputs.targetRPM;
-  }
-
   public void setTargetTurretAngle(double angle) {
     io.setTargetTurretAngle(angle);
   }

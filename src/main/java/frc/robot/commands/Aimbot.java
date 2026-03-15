@@ -39,7 +39,7 @@ public class Aimbot extends Command {
     // shooter.setTargetState(
     // ShooterUtil.calculateRPMForDistance(),
     // ShooterUtil.getRobotAngleToPose(targetPose) + turretAngle);
-  double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose, shooter.getTargetRPM());
+    double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose);
     shooter.setTargetTurretAngle(targetAngle);
     shooter.setTurretAngle(targetAngle);
   }
