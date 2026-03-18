@@ -21,10 +21,11 @@ public class ShooterUtil {
 
     // Predict where the robot will be in 20 ms using measured chassis speeds
     ChassisSpeeds speeds = drive.getChassisSpeeds();
-    double dt = 0.060; // 20 milliseconds
+    double dt = 0.020; // 20 milliseconds
     double dx = speeds.vxMetersPerSecond * dt;
     double dy = speeds.vyMetersPerSecond * dt;
-    double dtheta = speeds.omegaRadiansPerSecond * dt;
+    double prediction = 6.0;
+    double dtheta = speeds.omegaRadiansPerSecond * dt * prediction;
 
     Transform2d predictedTransform =
         new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));
