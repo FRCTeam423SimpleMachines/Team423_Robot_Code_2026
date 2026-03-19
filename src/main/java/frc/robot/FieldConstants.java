@@ -21,6 +21,8 @@ public final class FieldConstants {
   public static final Pose2d RED_DEPOT_POSE2D = new Pose2d(11.4, 0.9, new Rotation2d());
 
   public static final double HUB_HEIGHT = Units.inchesToMeters(72.0);
+  public static final double DEPOT_HEIGHT = 0.0;
+  public static final double OUTPOST_HEIGHT = 0.0;
 
 
   public static Pose2d getTargetPose(FieldTarget target, DriverStation.Alliance alliance) {
@@ -31,6 +33,19 @@ public final class FieldConstants {
         return alliance == DriverStation.Alliance.Red ? RED_OUTPOST_POSE : BLUE_OUTPOST_POSE;
       case DEPOT:
         return alliance == DriverStation.Alliance.Red ? RED_DEPOT_POSE2D : BLUE_DEPOT_POSE2D;
+      default:
+        throw new IllegalArgumentException("Unknown target: " + target);
+    }
+  }
+
+  public static double getTargetHeight(FieldTarget target) {
+    switch (target) {
+      case HUB:
+        return HUB_HEIGHT;
+      case OUTPOST:
+        return OUTPOST_HEIGHT;
+      case DEPOT:
+        return DEPOT_HEIGHT;
       default:
         throw new IllegalArgumentException("Unknown target: " + target);
     }

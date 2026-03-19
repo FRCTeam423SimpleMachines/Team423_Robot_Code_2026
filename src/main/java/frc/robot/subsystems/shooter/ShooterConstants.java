@@ -23,6 +23,7 @@ public class ShooterConstants {
 
   public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
   public static final double shooterHeight = Units.inchesToMeters(20.0);
+  public static final double shooterRadius = Units.inchesToMeters(1.875);
   
   public static final double PredictionLoops = 10.0;
 
