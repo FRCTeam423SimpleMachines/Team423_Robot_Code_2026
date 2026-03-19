@@ -14,9 +14,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.FieldConstants.FieldTarget;
+import frc.robot.commands.Aimbot;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.SearchAndDestroy;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -24,6 +28,18 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.intake.IntakeIOSpark;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOSim;
+import frc.robot.subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionConstants;
+import frc.robot.subsystems.vision.VisionIOPhotonVision;
+import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -35,6 +51,9 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Intake intake;
+  private final Vision vision;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -56,6 +75,15 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
+        intake = new Intake(new IntakeIOSpark());
+        vision =
+            new Vision(
+                drive::addVisionMeasurement,
+                new VisionIOPhotonVision("frontleft", VisionConstants.robotToCameraFrontLeft),
+                new VisionIOPhotonVision("frontright", VisionConstants.robotToCameraFrontRight),
+                new VisionIOPhotonVision("backleft", VisionConstants.robotToCameraBackLeft),
+                new VisionIOPhotonVision("backright", VisionConstants.robotToCameraBackRight));
+        shooter = new Shooter(new ShooterIOTalonFX());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -85,6 +113,10 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.FrontRight),
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
+        intake = new Intake(new IntakeIOSim());
+        vision =
+            new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
+        shooter = new Shooter(new ShooterIOSim());
         break;
 
       default:
@@ -96,6 +128,10 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
+        intake = new Intake(new IntakeIO() {});
+        vision =
+            new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
+        shooter = new Shooter(new ShooterIO() {});
         break;
     }
 
@@ -137,6 +173,17 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
+    // intake.setDefaultCommand(new RunCommand(() -> intake.setSpeed(-0.5), intake));
+
+    shooter.setDefaultCommand(new Aimbot(drive, shooter, FieldTarget.HUB));
+
+    controller.rightBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.OUTPOST));
+    controller.leftBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.DEPOT));
+
+    // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
+    // new instances of SearchAndDestroy until the outer binding is released.
+    controller.y().whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
+
     // Lock to 0° when A button is held
     controller
         .a()
@@ -160,6 +207,16 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    // THIS WON'T WORK BECAUSE IT ISN'T RUNNING CONTINOUSLY, RUNCOMMAND BAD
+    // controller
+    //     .leftTrigger(0.5)
+    //     .whileTrue(
+    //         new RunCommand(
+    //             () -> shooter.setTargetState(
+    //                 drive.getSpeedForHub(),
+    //                 drive.getRobotAngleToHub()),
+    //             shooter));
   }
 
   /**
