@@ -13,7 +13,6 @@ import java.util.Optional;
 public class Aimbot extends Command {
   private final Drive drive;
   private final Shooter shooter;
-  private double turretAngle;
   private Pose2d targetPose;
 
   public Aimbot(Drive drive, Shooter shooter, FieldConstants.FieldTarget target) {

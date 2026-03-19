@@ -7,7 +7,7 @@ public class ShooterConstants {
   public static final int secondShooterCanID = 62;
   public static final int turretCanID = 61;
 
-  public static final double shooterkP = 0.82;
+  public static final double shooterkP = 0.78;
   public static final double shooterkI = 0.0;
   public static final double shooterkD = 0.0;
 
@@ -16,15 +16,20 @@ public class ShooterConstants {
   public static final double turretkD = 0.1;
 
   public static final double shooterkV = 0.0;
-  public static final double shooterkS = 0.33;
-  public static final double shooterkA = 0.80;
+  public static final double shooterkS = 0.31;
+  public static final double shooterkA = 0.41;
 
   public static final double turretRotationsPerDegree = 280.0 / 360.0;
 
   public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
   public static final double shooterHeight = Units.inchesToMeters(20.0);
   public static final double shooterRadius = Units.inchesToMeters(1.875);
+  public static final double maxFlywheelRPM = 6000.0;
   
+  // Tolerance (meters) used when checking descending-impact threshold. A shot whose
+  // distance is within +/- this tolerance of the strict threshold will be allowed.
+  public static final double shooterRangeToleranceMeters = 0.5;
+
   public static final double PredictionLoops = 10.0;
 
 }
