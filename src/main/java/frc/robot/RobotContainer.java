@@ -177,8 +177,8 @@ public class RobotContainer {
 
     shooter.setDefaultCommand(new Aimbot(drive, shooter, FieldTarget.HUB));
 
-    controller.rightBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.DEPOT));
-    controller.leftBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.OUTPOST));
+    controller.rightBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.OUTPOST));
+    controller.leftBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.DEPOT));
 
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.

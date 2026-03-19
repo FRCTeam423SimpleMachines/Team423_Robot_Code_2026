@@ -15,6 +15,18 @@
           "data": {
             "pathName": "Return Outpost"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench to Outpost"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Outpost to Trench"
+          }
         }
       ]
     }

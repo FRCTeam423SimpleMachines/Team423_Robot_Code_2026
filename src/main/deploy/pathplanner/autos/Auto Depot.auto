@@ -15,6 +15,12 @@
           "data": {
             "pathName": "Return Depot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Trench to Depot"
+          }
         }
       ]
     }
