@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public final class FieldConstants {
@@ -18,6 +19,9 @@ public final class FieldConstants {
   public static final Pose2d RED_OUTPOST_POSE = new Pose2d(11.4, 7.1, new Rotation2d());
   public static final Pose2d BLUE_DEPOT_POSE2D = new Pose2d(2.0, 0.9, new Rotation2d());
   public static final Pose2d RED_DEPOT_POSE2D = new Pose2d(11.4, 0.9, new Rotation2d());
+
+  public static final double HUB_HEIGHT = Units.inchesToMeters(72.0);
+
 
   public static Pose2d getTargetPose(FieldTarget target, DriverStation.Alliance alliance) {
     switch (target) {

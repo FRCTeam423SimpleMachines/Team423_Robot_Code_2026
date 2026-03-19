@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.math.util.Units;
+
 public class ShooterConstants {
   public static final int shooterCanID = 63;
   public static final int secondShooterCanID = 62;
@@ -20,4 +22,8 @@ public class ShooterConstants {
   public static final double turretRotationsPerDegree = 280.0 / 360.0;
 
   public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
+  public static final double shooterHeight = Units.inchesToMeters(20.0);
+  
+  public static final double PredictionLoops = 10.0;
+
 }

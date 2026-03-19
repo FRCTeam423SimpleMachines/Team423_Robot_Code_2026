@@ -11,12 +11,18 @@ import org.photonvision.PhotonUtils;
 
 public class ShooterUtil {
   public static double calculateRPMForDistance(Drive drive, Pose2d targetPose) {
-    double distance = PhotonUtils.getDistanceToPose(drive.getPose(), targetPose);
+    double distanceFromTarget = PhotonUtils.getDistanceToPose(getPredictedPose(drive), targetPose);
     double theta = ShooterConstants.shooterAngle; // Angle of the shooter in radians
     return 0.0;
   }
 
   public static double getRobotAngleToPose(Drive drive, Pose2d targetPose) {
+    Pose2d predictedPose = getPredictedPose(drive);
+    return PhotonUtils.getYawToPose(predictedPose, targetPose).getDegrees();
+  }
+
+  public static Pose2d getPredictedPose (Drive drive){
+    
     Pose2d currentPose = drive.getPose();
 
     // Predict where the robot will be in 20 ms using measured chassis speeds
@@ -24,14 +30,13 @@ public class ShooterUtil {
     double dt = 0.020; // 20 milliseconds
     double dx = speeds.vxMetersPerSecond * dt;
     double dy = speeds.vyMetersPerSecond * dt;
-    double prediction = 6.0;
+    double prediction = ShooterConstants.PredictionLoops;
     double dtheta = speeds.omegaRadiansPerSecond * dt * prediction;
 
     Transform2d predictedTransform =
         new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));
 
     Pose2d predictedPose = currentPose.transformBy(predictedTransform);
-
-    return PhotonUtils.getYawToPose(predictedPose, targetPose).getDegrees();
+    return predictedPose;
   }
 }
