@@ -27,7 +27,7 @@ public interface ShooterIO {
 
   public default void runAtTarget(double RPM) {}
 
-  public default void setTargetRPM(double RPM, double turretPos) {}
+  public default void setTargetRPM(double RPM) {}
 
   public default void incrementTargetRPM(double increment) {}
 

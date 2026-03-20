@@ -20,8 +20,8 @@ public class Shooter extends SubsystemBase {
     io.incrementTargetRPM(increment);
   }
 
-  public void setTargetState(double RPM, double turretPos) {
-    io.setTargetRPM(RPM, turretPos / 1.0);
+  public void setTargetState(double RPM) {
+    io.setTargetRPM(RPM);
   }
 
   public Command runAtTarget() {
@@ -38,6 +38,11 @@ public class Shooter extends SubsystemBase {
 
   public void setTurretAngle(double angle) {
     io.setTurretAngle(angle);
+  }
+
+  public void setTurretAngles(double angle, double targetAngle) {
+    io.setTurretAngle(angle);
+    io.setTargetTurretAngle(targetAngle);
   }
 
   @Override

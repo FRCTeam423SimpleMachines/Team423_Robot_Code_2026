@@ -100,9 +100,8 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void setTargetRPM(double RPM, double turretPos) {
+  public void setTargetRPM(double RPM) {
     TargetRPM = RPM;
-    TurretTargetAngle = turretPos;
   }
 
   @Override

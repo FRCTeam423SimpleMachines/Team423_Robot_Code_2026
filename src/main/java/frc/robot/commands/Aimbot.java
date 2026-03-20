@@ -14,12 +14,14 @@ public class Aimbot extends Command {
   private final Drive drive;
   private final Shooter shooter;
   private Pose2d targetPose;
+  private double targetHeight;
 
   public Aimbot(Drive drive, Shooter shooter, FieldConstants.FieldTarget target) {
     this.shooter = shooter;
     this.drive = drive;
     Optional<Alliance> ally = DriverStation.getAlliance();
     this.targetPose = FieldConstants.getTargetPose(target, ally.orElse(DriverStation.Alliance.Red));
+    this.targetHeight = FieldConstants.getTargetHeight(target);
     addRequirements(shooter);
   }
 
@@ -35,9 +37,8 @@ public class Aimbot extends Command {
   @Override
   public void execute() {
     // turretAngle = shooter.getTurretAngle();
-    // shooter.setTargetState(
-    // ShooterUtil.calculateRPMForDistance(),
-    // ShooterUtil.getRobotAngleToPose(targetPose) + turretAngle);
+    shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
+
     double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose);
     shooter.setTargetTurretAngle(targetAngle);
     shooter.setTurretAngle(targetAngle);

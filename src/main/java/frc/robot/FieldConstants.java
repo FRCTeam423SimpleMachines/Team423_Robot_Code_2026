@@ -24,7 +24,6 @@ public final class FieldConstants {
   public static final double DEPOT_HEIGHT = 0.0;
   public static final double OUTPOST_HEIGHT = 0.0;
 
-
   public static Pose2d getTargetPose(FieldTarget target, DriverStation.Alliance alliance) {
     switch (target) {
       case HUB:

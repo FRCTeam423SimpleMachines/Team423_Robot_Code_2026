@@ -1,5 +1,6 @@
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
@@ -25,5 +26,13 @@ public class Intake extends SubsystemBase {
 
   public void setSpeed(double speed) {
     io.setSpeed(speed);
+  }
+
+  public void toggleState() {
+    io.toggleState();
+  }
+
+  public Command setIntakePosition(double position) {
+    return run(() -> io.setIntakeAngle(position));
   }
 }

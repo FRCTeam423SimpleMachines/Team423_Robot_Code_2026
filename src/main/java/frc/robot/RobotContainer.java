@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants.FieldTarget;
@@ -22,6 +24,10 @@ import frc.robot.commands.Aimbot;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.SearchAndDestroy;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberIO;
+import frc.robot.subsystems.climber.ClimberIOReal;
+import frc.robot.subsystems.climber.ClimberIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -54,9 +60,12 @@ public class RobotContainer {
   private final Intake intake;
   private final Vision vision;
   private final Shooter shooter;
+  private final Climber climber;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+  private final CommandJoystick stick1 = new CommandJoystick(1);
+  private final CommandJoystick stick2 = new CommandJoystick(2);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -76,6 +85,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
         intake = new Intake(new IntakeIOSpark());
+        climber = new Climber(new ClimberIOReal());
         vision =
             new Vision(
                 drive::addVisionMeasurement,
@@ -114,6 +124,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
         intake = new Intake(new IntakeIOSim());
+        climber = new Climber(new ClimberIOSim());
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIOSim());
@@ -129,6 +140,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         intake = new Intake(new IntakeIO() {});
+        climber = new Climber(new ClimberIO() {});
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIO() {});
@@ -168,25 +180,21 @@ public class RobotContainer {
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
+            drive, () -> -stick1.getY(), () -> -stick1.getX(), () -> -stick2.getX()));
 
-    // intake.setDefaultCommand(new RunCommand(() -> intake.setSpeed(-0.5), intake));
+    // Change magic number to actual intake down position
+    intake.setDefaultCommand(intake.setIntakePosition(0.0));
 
-    shooter.setDefaultCommand(new Aimbot(drive, shooter, FieldTarget.HUB));
-
-    controller.rightBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.OUTPOST));
-    controller.leftBumper().whileTrue(new Aimbot(drive, shooter, FieldTarget.DEPOT));
-
+    controller.a().onTrue(new Aimbot(drive, shooter, FieldTarget.HUB));
+    controller.b().onTrue(new Aimbot(drive, shooter, FieldTarget.OUTPOST));
+    controller.x().onTrue(new Aimbot(drive, shooter, FieldTarget.DEPOT));
+    controller.y().onTrue(new RunCommand(() -> shooter.setTurretAngles(0.0, 0.0)));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
-    controller.y().whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
-
-    // Lock to 0° when A button is held
-    controller
-        .a()
+    stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
+    // Lock to 0° when mid button is held
+    stick1
+        .button(4)
         .whileTrue(
             DriveCommands.joystickDriveAtAngle(
                 drive,
@@ -195,11 +203,11 @@ public class RobotContainer {
                 () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    stick1.button(5).onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
-    controller
-        .b()
+    stick1
+        .button(6)
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -207,6 +215,16 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    stick2.button(11).onTrue(new RunCommand(() -> climber.setClimberPosition(1.0), climber));
+    stick2.button(10).onTrue(new RunCommand(() -> climber.setClimberPosition(0.0), climber));
+
+    // Add intake up/down motor control
+    // controller.povDown().onTrue();
+    // controller.povUp().onTrue();
+
+    controller.back().onTrue(new RunCommand(() -> intake.toggleState()));
+    controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));
 
     // THIS WON'T WORK BECAUSE IT ISN'T RUNNING CONTINOUSLY, RUNCOMMAND BAD
     // controller

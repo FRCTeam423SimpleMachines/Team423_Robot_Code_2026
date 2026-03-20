@@ -10,7 +10,8 @@ import frc.robot.subsystems.shooter.ShooterConstants;
 import org.photonvision.PhotonUtils;
 
 public class ShooterUtil {
-  public static double calculateRPMForDistance(Drive drive, Pose2d targetPose, double targetHeight) {
+  public static double calculateRPMForDistance(
+      Drive drive, Pose2d targetPose, double targetHeight) {
     double distanceFromTarget = PhotonUtils.getDistanceToPose(getPredictedPose(drive), targetPose);
 
     // Shooter geometry and launch angle
@@ -83,8 +84,8 @@ public class ShooterUtil {
     return PhotonUtils.getYawToPose(predictedPose, targetPose).getDegrees();
   }
 
-  public static Pose2d getPredictedPose (Drive drive){
-    
+  public static Pose2d getPredictedPose(Drive drive) {
+
     Pose2d currentPose = drive.getPose();
 
     // Predict where the robot will be in 20 ms using measured chassis speeds
