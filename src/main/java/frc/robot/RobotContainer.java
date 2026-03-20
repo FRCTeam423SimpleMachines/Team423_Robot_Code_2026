@@ -42,6 +42,10 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOSim;
 import frc.robot.subsystems.shooter.ShooterIOTalonFX;
+import frc.robot.subsystems.turret.Turret;
+import frc.robot.subsystems.turret.TurretIO;
+import frc.robot.subsystems.turret.TurretIOReal;
+import frc.robot.subsystems.turret.TurretIOSim;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
@@ -61,7 +65,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Shooter shooter;
   private final Climber climber;
-
+  private final Turret turret;
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final CommandJoystick stick1 = new CommandJoystick(1);
@@ -94,6 +98,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision("backleft", VisionConstants.robotToCameraBackLeft),
                 new VisionIOPhotonVision("backright", VisionConstants.robotToCameraBackRight));
         shooter = new Shooter(new ShooterIOTalonFX());
+        turret = new Turret(new TurretIOReal());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -128,6 +133,7 @@ public class RobotContainer {
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIOSim());
+        turret = new Turret(new TurretIOSim());
         break;
 
       default:
@@ -144,6 +150,7 @@ public class RobotContainer {
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIO() {});
+        turret = new Turret(new TurretIO() {});
         break;
     }
 
@@ -185,10 +192,10 @@ public class RobotContainer {
     // Change magic number to actual intake down position
     intake.setDefaultCommand(intake.setIntakePosition(0.0));
 
-    controller.a().onTrue(new Aimbot(drive, shooter, FieldTarget.HUB));
-    controller.b().onTrue(new Aimbot(drive, shooter, FieldTarget.OUTPOST));
-    controller.x().onTrue(new Aimbot(drive, shooter, FieldTarget.DEPOT));
-    controller.y().onTrue(new RunCommand(() -> shooter.setTurretAngles(0.0, 0.0)));
+    controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
+    controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
+    controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
+    controller.y().onTrue(new RunCommand(() -> turret.setTurretAngles(0.0, 0.0)));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
     stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
@@ -225,16 +232,6 @@ public class RobotContainer {
 
     controller.back().onTrue(new RunCommand(() -> intake.toggleState()));
     controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));
-
-    // THIS WON'T WORK BECAUSE IT ISN'T RUNNING CONTINOUSLY, RUNCOMMAND BAD
-    // controller
-    //     .leftTrigger(0.5)
-    //     .whileTrue(
-    //         new RunCommand(
-    //             () -> shooter.setTargetState(
-    //                 drive.getSpeedForHub(),
-    //                 drive.getRobotAngleToHub()),
-    //             shooter));
   }
 
   /**

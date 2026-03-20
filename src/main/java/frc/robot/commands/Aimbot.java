@@ -6,23 +6,21 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.turret.Turret;
 import frc.robot.util.ShooterUtil;
 import java.util.Optional;
 
 public class Aimbot extends Command {
   private final Drive drive;
-  private final Shooter shooter;
+  private final Turret turret;
   private Pose2d targetPose;
-  private double targetHeight;
 
-  public Aimbot(Drive drive, Shooter shooter, FieldConstants.FieldTarget target) {
-    this.shooter = shooter;
+  public Aimbot(Drive drive, Turret turret, FieldConstants.FieldTarget target) {
+    this.turret = turret;
     this.drive = drive;
     Optional<Alliance> ally = DriverStation.getAlliance();
     this.targetPose = FieldConstants.getTargetPose(target, ally.orElse(DriverStation.Alliance.Red));
-    this.targetHeight = FieldConstants.getTargetHeight(target);
-    addRequirements(shooter);
+    addRequirements(turret);
   }
 
   @Override
@@ -37,11 +35,11 @@ public class Aimbot extends Command {
   @Override
   public void execute() {
     // turretAngle = shooter.getTurretAngle();
-    shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
+    // shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
 
     double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose);
-    shooter.setTargetTurretAngle(targetAngle);
-    shooter.setTurretAngle(targetAngle);
+    turret.setTargetTurretAngle(targetAngle);
+    turret.setTurretAngle(targetAngle);
   }
 
   @Override

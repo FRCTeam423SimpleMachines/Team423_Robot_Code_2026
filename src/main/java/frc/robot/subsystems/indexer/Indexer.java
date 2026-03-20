@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class Indexer extends SubsystemBase {
   private final IndexerIO io;
-  private final IndexerIOInputsAutologged inputs = new IndexerIOInputsAutologged();
+  private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
 
   public Indexer(IndexerIO io) {
     this.io = io;
