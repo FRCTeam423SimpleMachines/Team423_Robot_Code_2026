@@ -20,6 +20,7 @@ public class Aimbot extends Command {
     this.drive = drive;
     Optional<Alliance> ally = DriverStation.getAlliance();
     this.targetPose = FieldConstants.getTargetPose(target, ally.orElse(DriverStation.Alliance.Red));
+    turret.setFieldTarget(target);
     addRequirements(turret);
   }
 

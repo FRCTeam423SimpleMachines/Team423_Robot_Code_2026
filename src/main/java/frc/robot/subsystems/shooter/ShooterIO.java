@@ -7,16 +7,11 @@ public interface ShooterIO {
   public static class ShooterIOInputs {
     public double flywheelRPM = 0;
     public double targetRPM = 0;
-    public double secondFlywheelRPM = 0;
-    public boolean laser1 = false;
-    public boolean laser2 = false;
   }
 
   public default void updateInputs(ShooterIOInputs inputs) {}
 
   public default void runAtSpeed(double speed) {}
-
-  public default void runAtTarget() {}
 
   public default void runAtTarget(double RPM) {}
 

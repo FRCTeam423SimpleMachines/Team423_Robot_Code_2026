@@ -23,6 +23,7 @@ import frc.robot.FieldConstants.FieldTarget;
 import frc.robot.commands.Aimbot;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.SearchAndDestroy;
+import frc.robot.commands.Shoot;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
@@ -34,6 +35,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
+import frc.robot.subsystems.indexer.IndexerIOKraken;
+import frc.robot.subsystems.indexer.IndexerIOSim;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOSim;
@@ -66,6 +71,7 @@ public class RobotContainer {
   private final Shooter shooter;
   private final Climber climber;
   private final Turret turret;
+  private final Indexer indexer;
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final CommandJoystick stick1 = new CommandJoystick(1);
@@ -99,6 +105,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision("backright", VisionConstants.robotToCameraBackRight));
         shooter = new Shooter(new ShooterIOTalonFX());
         turret = new Turret(new TurretIOReal());
+        indexer = new Indexer(new IndexerIOKraken());
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The
@@ -134,6 +141,7 @@ public class RobotContainer {
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIOSim());
         turret = new Turret(new TurretIOSim());
+        indexer = new Indexer(new IndexerIOSim());
         break;
 
       default:
@@ -151,6 +159,7 @@ public class RobotContainer {
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIO() {});
         turret = new Turret(new TurretIO() {});
+        indexer = new Indexer(new IndexerIO() {});
         break;
     }
 
@@ -190,7 +199,7 @@ public class RobotContainer {
             drive, () -> -stick1.getY(), () -> -stick1.getX(), () -> -stick2.getX()));
 
     // Change magic number to actual intake down position
-    intake.setDefaultCommand(intake.setIntakePosition(0.0));
+    // intake.setDefaultCommand(intake.setIntakePosition(0.0));
 
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
@@ -229,6 +238,9 @@ public class RobotContainer {
     // Add intake up/down motor control
     // controller.povDown().onTrue();
     // controller.povUp().onTrue();
+
+    controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
+    controller.rightTrigger().whileTrue(new RunCommand(() -> indexer.runIndexer(5000.0), indexer));
 
     controller.back().onTrue(new RunCommand(() -> intake.toggleState()));
     controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));

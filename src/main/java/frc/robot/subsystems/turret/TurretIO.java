@@ -1,5 +1,6 @@
 package frc.robot.subsystems.turret;
 
+import frc.robot.FieldConstants.FieldTarget;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface TurretIO {
@@ -22,6 +23,12 @@ public interface TurretIO {
   public default void setTurretSpeed(double speed) {}
 
   public default void setTargetTurretAngle(double angle) {}
+
+  public default void setFieldTarget(FieldTarget target) {}
+
+  public default FieldTarget getFieldTarget() {
+    return null;
+  }
 
   public default void zeroTurret() {}
 }

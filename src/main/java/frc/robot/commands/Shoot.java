@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.FieldConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.turret.Turret;
 import frc.robot.util.ShooterUtil;
 import java.util.Optional;
 
@@ -16,10 +17,12 @@ public class Shoot extends Command {
   private Pose2d targetPose;
   private double targetHeight;
 
-  public Shoot(Drive drive, Shooter shooter, FieldConstants.FieldTarget target) {
+  public Shoot(Drive drive, Shooter shooter, Turret turret) {
     Optional<Alliance> ally = DriverStation.getAlliance();
-    this.targetPose = FieldConstants.getTargetPose(target, ally.orElse(DriverStation.Alliance.Red));
-    this.targetHeight = FieldConstants.getTargetHeight(target);
+    this.targetPose =
+        FieldConstants.getTargetPose(
+            turret.getFieldTarget(), ally.orElse(DriverStation.Alliance.Red));
+    this.targetHeight = FieldConstants.getTargetHeight(turret.getFieldTarget());
     this.drive = drive;
     this.shooter = shooter;
     addRequirements(shooter);
@@ -30,7 +33,8 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
+    double RPM = ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight);
+    shooter.runAtTarget(RPM);
   }
 
   @Override

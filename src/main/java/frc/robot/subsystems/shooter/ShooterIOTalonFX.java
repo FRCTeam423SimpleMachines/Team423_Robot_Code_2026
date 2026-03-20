@@ -55,11 +55,6 @@ public class ShooterIOTalonFX implements ShooterIO {
   }
 
   @Override
-  public void runAtTarget() {
-    m_shooter.setControl(m_shooter_request.withVelocity(TargetRPM));
-  }
-
-  @Override
   public void runAtTarget(double RPM) {
     TargetRPM = RPM;
     m_shooter.setControl(m_shooter_request.withVelocity(RPM));
