@@ -48,6 +48,11 @@ public class IntakeIOSpark implements IntakeIO {
   }
 
   @Override
+  public void runIntakeLift(double speed) {
+    m_intakeMotor2.set(speed);
+  }
+
+  @Override
   public void updateInputs(IntakeIOInputs inputs) {
     inputs.state = state;
     inputs.intakePosition = m_intakeMotor2.getPosition().getValueAsDouble();

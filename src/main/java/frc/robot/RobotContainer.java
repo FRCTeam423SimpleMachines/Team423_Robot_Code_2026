@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -21,9 +22,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants.FieldTarget;
 import frc.robot.commands.Aimbot;
+import frc.robot.commands.Climb;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.RunIndexer;
+import frc.robot.commands.RunIntake;
+import frc.robot.commands.RunIntakeLift;
 import frc.robot.commands.SearchAndDestroy;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIO;
@@ -163,6 +169,13 @@ public class RobotContainer {
         break;
     }
 
+    // Register Named Commands
+    NamedCommands.registerCommand("Aimbot", new Aimbot(drive, turret, FieldTarget.HUB));
+    NamedCommands.registerCommand("Intake", new ToggleIntake(intake));
+    // replace with command to run intake down/up, rather than to a position
+    // NamedCommands.registerCommand("IntakeDown", intake.setIntakePosition(0.0));
+    // NamedCommands.registerCommand("IntakeUp", intake.setIntakePosition(-0.5));
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -200,6 +213,7 @@ public class RobotContainer {
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
+    intake.setDefaultCommand(new RunIntake(intake, -0.3));
 
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
@@ -232,17 +246,18 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    stick2.button(11).onTrue(new RunCommand(() -> climber.setClimberPosition(1.0), climber));
-    stick2.button(10).onTrue(new RunCommand(() -> climber.setClimberPosition(0.0), climber));
+    stick2.button(11).onTrue(new Climb(climber, -10.0));
+    stick2.button(10).onTrue(new Climb(climber, 250.0));
 
-    // Add intake up/down motor control
-    // controller.povDown().onTrue();
-    // controller.povUp().onTrue();
+    // Add intake up/down motor control (FIGURE OUT WHAT DOWN AND UP ARE)
+    controller.povDown().whileTrue(new RunIntakeLift(intake, -0.2));
+    controller.povUp().whileTrue(new RunIntakeLift(intake, 0.2));
+    controller.povLeft().onTrue(new RunIntakeLift(intake, 0.0));
 
     controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
-    controller.rightTrigger().whileTrue(new RunCommand(() -> indexer.runIndexer(5000.0), indexer));
+    controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, 5000.0));
 
-    controller.back().onTrue(new RunCommand(() -> intake.toggleState()));
+    controller.back().onTrue(new ToggleIntake(intake));
     controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));
   }
 

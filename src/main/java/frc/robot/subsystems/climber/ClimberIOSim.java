@@ -14,7 +14,7 @@ public class ClimberIOSim implements ClimberIO {
   }
 
   @Override
-  public void setClimberPosition(double volts) {
+  public void runClimber(double volts) {
     m_climber.setInputVoltage(volts);
   }
 

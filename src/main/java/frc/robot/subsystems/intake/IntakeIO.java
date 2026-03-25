@@ -6,7 +6,7 @@ public interface IntakeIO {
   @AutoLog
   public static class IntakeIOInputs {
     public String currentCommand = "None";
-    public boolean state = false;
+    public boolean state = true;
     public double intakePosition = 0.0;
   }
 
@@ -19,4 +19,6 @@ public interface IntakeIO {
   public default void setIntakeAngle(double angle) {}
 
   public default void toggleState() {}
+
+  public default void runIntakeLift(double speed) {}
 }

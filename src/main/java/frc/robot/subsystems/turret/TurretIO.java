@@ -27,7 +27,7 @@ public interface TurretIO {
   public default void setFieldTarget(FieldTarget target) {}
 
   public default FieldTarget getFieldTarget() {
-    return null;
+    return FieldTarget.HUB;
   }
 
   public default void zeroTurret() {}

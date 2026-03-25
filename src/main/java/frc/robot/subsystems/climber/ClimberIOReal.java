@@ -24,12 +24,11 @@ public class ClimberIOReal implements ClimberIO {
 
   @Override
   public void updateInputs(ClimberIOInputs inputs) {
-    inputs.climberPosition =
-        m_climber.getPosition().getValueAsDouble() / ClimberConstants.climberRotationsPerExtension;
+    inputs.climberPosition = m_climber.getPosition().getValueAsDouble();
   }
 
+  @Override
   public void runClimber(double position) {
-    m_climber.setControl(
-        m_climber_request.withPosition(position * ClimberConstants.climberRotationsPerExtension));
+    m_climber.setControl(m_climber_request.withPosition(position));
   }
 }

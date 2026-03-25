@@ -23,6 +23,6 @@ public class Climber extends SubsystemBase {
   }
 
   public void setClimberPosition(double position) {
-    io.setClimberPosition(position);
+    io.runClimber(position);
   }
 }

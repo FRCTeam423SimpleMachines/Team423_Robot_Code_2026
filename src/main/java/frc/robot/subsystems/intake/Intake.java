@@ -28,11 +28,19 @@ public class Intake extends SubsystemBase {
     io.setSpeed(speed);
   }
 
+  public void runIntake(double speed) {
+    io.setSpeed(speed);
+  }
+
   public void toggleState() {
     io.toggleState();
   }
 
   public Command setIntakePosition(double position) {
     return run(() -> io.setIntakeAngle(position));
+  }
+
+  public void runIntakeLift(double speed) {
+    io.runIntakeLift(speed);
   }
 }

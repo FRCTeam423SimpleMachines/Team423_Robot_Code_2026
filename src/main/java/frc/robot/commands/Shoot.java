@@ -33,7 +33,7 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
-    double RPM = ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight);
+    double RPM = ShooterUtil.calculateRPSForDistance(drive, targetPose, targetHeight);
     shooter.runAtTarget(RPM);
   }
 
