@@ -23,7 +23,7 @@ public class ShooterIOTalonFX implements ShooterIO {
           .withKA(ShooterConstants.shooterkA)
           .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
-  final VelocityVoltage m_shooter_request = new VelocityVoltage(0).withSlot(0);
+  final VelocityVoltage m_shooter_request = new VelocityVoltage(0).withSlot(0).withEnableFOC(false);
 
   private double TargetRPM = 0;
 

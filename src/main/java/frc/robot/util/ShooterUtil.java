@@ -12,7 +12,9 @@ import org.photonvision.PhotonUtils;
 public class ShooterUtil {
   public static double calculateRPSForDistance(
       Drive drive, Pose2d targetPose, double targetHeight) {
-    double distanceFromTarget = PhotonUtils.getDistanceToPose(getPredictedPose(drive), targetPose);
+    // getPredictedPose now returns the shooter exit pose (robot prediction + shooter offsets)
+    Pose2d shooterPose = getPredictedPose(drive);
+    double distanceFromTarget = PhotonUtils.getDistanceToPose(shooterPose, targetPose);
 
     // Shooter geometry and launch angle
     double theta = ShooterConstants.shooterAngle; // radians
@@ -73,15 +75,15 @@ public class ShooterUtil {
 
     // If computed RPM exceeds hardware capability, clamp to maxFlywheelRPM.
     if (rpm > ShooterConstants.maxFlywheelRPM) {
-      return ShooterConstants.maxFlywheelRPM / 60.0;
+      return ShooterConstants.maxFlywheelRPM / 22.0;
     }
 
-    return rpm / 60.0;
+    return rpm / 22.0;
   }
 
   public static double getRobotAngleToPose(Drive drive, Pose2d targetPose) {
-    Pose2d predictedPose = getPredictedPose(drive);
-    return PhotonUtils.getYawToPose(predictedPose, targetPose).getDegrees();
+    Pose2d shooterPose = getPredictedPose(drive);
+    return PhotonUtils.getYawToPose(shooterPose, targetPose).getDegrees();
   }
 
   public static Pose2d getPredictedPose(Drive drive) {
@@ -100,6 +102,15 @@ public class ShooterUtil {
         new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));
 
     Pose2d predictedPose = currentPose.transformBy(predictedTransform);
-    return predictedPose;
+
+    // Apply shooter offset so callers receive the shooter exit Pose2d directly.
+    Transform2d shooterOffsetTransform =
+        new Transform2d(
+            new Translation2d(
+                ShooterConstants.shooterOffsetXMeters, ShooterConstants.shooterOffsetYMeters),
+            new Rotation2d());
+
+    Pose2d shooterPose = predictedPose.transformBy(shooterOffsetTransform);
+    return shooterPose;
   }
 }

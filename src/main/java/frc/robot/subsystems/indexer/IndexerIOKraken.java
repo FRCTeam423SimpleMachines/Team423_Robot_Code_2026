@@ -27,7 +27,7 @@ public class IndexerIOKraken implements IndexerIO {
     inputs.indexerVelocity = m_indexer.getVelocity().getValueAsDouble();
   }
 
-  public void runClimber(double speed) {
+  public void runIndexer(double speed) {
     m_indexer.setControl(m_indexer_request.withVelocity(speed));
   }
 }
