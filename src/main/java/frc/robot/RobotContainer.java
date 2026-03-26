@@ -254,8 +254,11 @@ public class RobotContainer {
     controller.povUp().whileTrue(new RunIntakeLift(intake, 0.2));
     controller.povLeft().onTrue(new RunIntakeLift(intake, 0.0));
 
-    controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
-    controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, -70.0));
+    // controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
+    // controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, -70.0));
+
+    controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
+    controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, -70.0));
 
     controller.back().onTrue(new ToggleIntake(intake));
     controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));
