@@ -40,7 +40,7 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void updateInputs(ShooterIOInputs inputs) {
-    inputs.flywheelRPM = m_shooter.getVelocity().getValueAsDouble();
+    inputs.flywheelRPM = m_shooter.getVelocity().getValueAsDouble()*60.0;
     inputs.targetRPM = TargetRPM;
   }
 
@@ -56,22 +56,22 @@ public class ShooterIOTalonFX implements ShooterIO {
 
   @Override
   public void runAtTarget(double RPM) {
-    TargetRPM = RPM;
+    TargetRPM = RPM/22.0*60.0;
     m_shooter.setControl(m_shooter_request.withVelocity(RPM / 22.0));
   }
 
   @Override
   public void setTargetRPM(double RPM) {
-    TargetRPM = RPM;
+    TargetRPM = RPM/22.0*60.0;
   }
 
   @Override
   public void incrementTargetRPM(double increment) {
-    TargetRPM = TargetRPM + increment;
+    TargetRPM = TargetRPM + increment/22.0*60.0;
   }
 
   @Override
   public void setTargetRun(double RPM) {
-    TargetRPM = RPM;
+    TargetRPM = RPM/22.0*60.0;
   }
 }
