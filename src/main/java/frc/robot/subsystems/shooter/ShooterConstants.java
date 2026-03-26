@@ -14,7 +14,7 @@ public class ShooterConstants {
   public static final double shooterkS = 0.31;
   public static final double shooterkA = 0.41;
 
-  public static final double shooterAngle = Math.toRadians(45.0); // insert degrees number
+  public static final double shooterAngle = Math.toRadians(60.0); // insert degrees number
   public static final double shooterHeight = Units.inchesToMeters(20.0);
   public static final double shooterRadius = Units.inchesToMeters(1.875);
   public static final double maxFlywheelRPM = 6000.0;

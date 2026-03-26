@@ -10,7 +10,7 @@ import frc.robot.subsystems.shooter.ShooterConstants;
 import org.photonvision.PhotonUtils;
 
 public class ShooterUtil {
-  public static double calculateRPSForDistance(
+  public static double calculateRPMForDistance(
       Drive drive, Pose2d targetPose, double targetHeight) {
     // getPredictedPose now returns the shooter exit pose (robot prediction + shooter offsets)
     Pose2d shooterPose = getPredictedPose(drive);
@@ -75,10 +75,10 @@ public class ShooterUtil {
 
     // If computed RPM exceeds hardware capability, clamp to maxFlywheelRPM.
     if (rpm > ShooterConstants.maxFlywheelRPM) {
-      return ShooterConstants.maxFlywheelRPM / 22.0;
+      return ShooterConstants.maxFlywheelRPM;
     }
 
-    return rpm / 22.0;
+    return rpm;
   }
 
   public static double getRobotAngleToPose(Drive drive, Pose2d targetPose) {
