@@ -24,9 +24,9 @@ public class Turret extends SubsystemBase {
     io.setTurretAngle(angle);
   }
 
-  public void setTurretAngles(double angle, double targetAngle) {
+  public void setTurretAngles(double angle) {
     io.setTurretAngle(angle);
-    io.setTargetTurretAngle(targetAngle);
+    io.setTargetTurretAngle(angle);
   }
 
   public void setFieldTarget(FieldTarget target) {

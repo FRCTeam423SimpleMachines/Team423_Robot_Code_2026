@@ -213,7 +213,7 @@ public class RobotContainer {
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
     controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
-    controller.y().onTrue(new RunCommand(() -> turret.setTurretAngle(0.0)));
+    controller.y().onTrue(new RunCommand(() -> turret.setTurretAngles(0.0)));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
     stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
