@@ -43,32 +43,33 @@ public class VisionIOPhotonVision implements VisionIO {
   @Override
   public void updateInputs(VisionIOInputs inputs) {
     inputs.connected = camera.isConnected();
-    java.util.List<edu.wpi.first.math.geometry.Translation2d> ballTranslations =
-        new java.util.LinkedList<>();
+    // java.util.List<edu.wpi.first.math.geometry.Translation2d> ballTranslations =
+    //    new java.util.LinkedList<>();
     // Read new camera observations
     Set<Short> tagIds = new HashSet<>();
     List<PoseObservation> poseObservations = new LinkedList<>();
     for (var result : camera.getAllUnreadResults()) {
       // Update latest target observation
       if (result.hasTargets()) {
-        if (!(camera.getName().equals(cameraBack))) {
-          inputs.latestTargetObservation =
-              new TargetObservation(
-                  Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
-                  Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
-        } else {
-          inputs.hasBall = true;
-          inputs.ballTargetObservation =
-              new TargetObservation(
-                  Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
-                  Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
-        }
+        // if (!(camera.getName().equals(cameraBack))) {
+        inputs.latestTargetObservation =
+            new TargetObservation(
+                Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
+                Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
+        // } else {
+        //  inputs.hasBall = true;
+        //  inputs.ballTargetObservation =
+        //      new TargetObservation(
+        //          Rotation2d.fromDegrees(result.getBestTarget().getYaw()),
+        //          Rotation2d.fromDegrees(result.getBestTarget().getPitch()));
+        // }
       } else {
         inputs.latestTargetObservation = new TargetObservation(new Rotation2d(), new Rotation2d());
         inputs.hasBall = false;
       }
 
-      // If this is the front camera and it has a ball target, compute the camera->ball translation
+      /*
+      // If this is the back camera and it has a ball target, compute the camera->ball translation
       if (camera.getName().equals(cameraBack) && result.hasTargets()) {
         var best = result.getBestTarget();
         double distance =
@@ -82,6 +83,7 @@ public class VisionIOPhotonVision implements VisionIO {
         ballTranslations.add(
             new edu.wpi.first.math.geometry.Translation2d(trans.getX(), trans.getY()));
       }
+      */
 
       // Add pose observation
       if (result.multitagResult.isPresent()) { // Multitag result
@@ -153,7 +155,7 @@ public class VisionIOPhotonVision implements VisionIO {
       inputs.tagIds[i++] = id;
     }
     // Save ball translations
-    inputs.ballTranslations =
-        ballTranslations.toArray(new edu.wpi.first.math.geometry.Translation2d[0]);
+    // inputs.ballTranslations =
+    //    ballTranslations.toArray(new edu.wpi.first.math.geometry.Translation2d[0]);
   }
 }

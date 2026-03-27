@@ -24,7 +24,7 @@ public interface TurretIO {
 
   public default void setTargetTurretAngle(double angle) {}
 
-  public default void setTurretAngles(double angle){}
+  public default void setTurretAngles(double angle) {}
 
   public default void setFieldTarget(FieldTarget target) {}
 

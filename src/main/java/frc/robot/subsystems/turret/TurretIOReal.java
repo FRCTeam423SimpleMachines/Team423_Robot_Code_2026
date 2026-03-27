@@ -71,7 +71,7 @@ public class TurretIOReal implements TurretIO {
   }
 
   @Override
-  public void setTurretAngles(double angle){
+  public void setTurretAngles(double angle) {
     setTargetTurretAngle(angle);
     setTurretAngle(angle);
   }
