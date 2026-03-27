@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants.FieldTarget;
 import frc.robot.commands.Aimbot;
-import frc.robot.commands.Climb;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunIntake;
@@ -31,10 +30,6 @@ import frc.robot.commands.SearchAndDestroy;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.climber.ClimberIO;
-import frc.robot.subsystems.climber.ClimberIOReal;
-import frc.robot.subsystems.climber.ClimberIOSim;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -75,7 +70,7 @@ public class RobotContainer {
   private final Intake intake;
   private final Vision vision;
   private final Shooter shooter;
-  private final Climber climber;
+  // private final Climber climber;
   private final Turret turret;
   private final Indexer indexer;
   // Controller
@@ -101,7 +96,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
         intake = new Intake(new IntakeIOSpark());
-        climber = new Climber(new ClimberIOReal());
+        // climber = new Climber(new ClimberIOReal());
         vision =
             new Vision(
                 drive::addVisionMeasurement,
@@ -142,7 +137,7 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
         intake = new Intake(new IntakeIOSim());
-        climber = new Climber(new ClimberIOSim());
+        // climber = new Climber(new ClimberIOSim());
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIOSim());
@@ -160,7 +155,7 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
         intake = new Intake(new IntakeIO() {});
-        climber = new Climber(new ClimberIO() {});
+        // climber = new Climber(new ClimberIO() {});
         vision =
             new Vision(drive::addVisionMeasurement, new VisionIOPhotonVisionSim(null, null, null));
         shooter = new Shooter(new ShooterIO() {});
@@ -218,7 +213,7 @@ public class RobotContainer {
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
     controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
-    controller.y().onTrue(new RunCommand(() -> turret.setTurretAngles(0.0, 0.0)));
+    controller.y().onTrue(new RunCommand(() -> turret.setTurretAngle(0.0)));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
     stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
@@ -246,8 +241,8 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    stick2.button(11).onTrue(new Climb(climber, -10.0));
-    stick2.button(10).onTrue(new Climb(climber, 250.0));
+    // stick2.button(11).onTrue(new Climb(climber, -10.0));
+    // stick2.button(10).onTrue(new Climb(climber, 250.0));
 
     // Add intake up/down motor control (FIGURE OUT WHAT DOWN AND UP ARE)
     controller.povDown().whileTrue(new RunIntakeLift(intake, -0.2));

@@ -19,9 +19,13 @@ public class Shoot extends Command {
 
   public Shoot(Drive drive, Shooter shooter, Turret turret) {
     Optional<Alliance> ally = DriverStation.getAlliance();
-    this.targetPose =
-        FieldConstants.getTargetPose(
-            turret.getFieldTarget(), ally.orElse(DriverStation.Alliance.Red));
+    Alliance alliance;
+    if (ally.isPresent()) {
+      alliance = ally.get();
+    } else {
+      alliance = DriverStation.Alliance.Red; // default to red if alliance is unknown
+    }
+    this.targetPose = FieldConstants.getTargetPose(turret.getFieldTarget(), alliance);
     this.targetHeight = FieldConstants.getTargetHeight(turret.getFieldTarget());
     this.drive = drive;
     this.shooter = shooter;

@@ -57,8 +57,12 @@ public class TurretIOReal implements TurretIO {
 
   @Override
   public void setTurretAngle(double angle) {
-    m_turret.setControl(
-        m_turret_request.withPosition(angle * TurretConstants.turretRotationsPerDegree));
+    if (Math.abs(angle - getTurretAngle()) < 2.5) {
+      m_turret.set(0);
+    } else {
+      m_turret.setControl(
+          m_turret_request.withPosition(angle * TurretConstants.turretRotationsPerDegree));
+    }
   }
 
   @Override
