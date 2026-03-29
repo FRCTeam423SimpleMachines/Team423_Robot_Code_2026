@@ -14,6 +14,7 @@ public class Aimbot extends Command {
   private final Drive drive;
   private final Turret turret;
   private Pose2d targetPose;
+  private double pattern;
 
   public Aimbot(Drive drive, Turret turret, FieldConstants.FieldTarget target) {
     this.turret = turret;
@@ -26,6 +27,7 @@ public class Aimbot extends Command {
       alliance = DriverStation.Alliance.Red; // default to red if alliance is unknown
     }
     this.targetPose = FieldConstants.getTargetPose(target, alliance);
+    this.pattern = FieldConstants.getTargetLED(target, alliance);
     turret.setFieldTarget(target);
     addRequirements(turret);
   }
@@ -47,6 +49,7 @@ public class Aimbot extends Command {
     double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose);
     turret.setTargetTurretAngle(targetAngle);
     turret.setTurretAngle(targetAngle);
+    turret.setLights(pattern);
   }
 
   @Override

@@ -6,10 +6,12 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class TurretIOReal implements TurretIO {
 
   private final TalonFX m_turret;
+  private final Spark m_blinkin;
 
   private final DigitalInput homeFlag;
 
@@ -24,6 +26,7 @@ public class TurretIOReal implements TurretIO {
   public double TurretTargetAngle = 0;
 
   public TurretIOReal() {
+    m_blinkin = new Spark(0);
     m_turret = new TalonFX(TurretConstants.turretCanID);
     tryUntilOk(5, () -> m_turret.getConfigurator().apply(turretGains));
     homeFlag = new DigitalInput(0);
@@ -63,6 +66,11 @@ public class TurretIOReal implements TurretIO {
       m_turret.setControl(
           m_turret_request.withPosition(angle * TurretConstants.turretRotationsPerDegree));
     }
+  }
+
+  @Override
+  public void setLights(double pattern) {
+    m_blinkin.set(pattern);
   }
 
   @Override

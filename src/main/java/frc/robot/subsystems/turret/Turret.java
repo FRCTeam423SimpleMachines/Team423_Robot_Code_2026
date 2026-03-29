@@ -24,6 +24,10 @@ public class Turret extends SubsystemBase {
     io.setTurretAngle(angle);
   }
 
+  public void setLights(double pattern) {
+    io.setLights(pattern);
+  }
+
   public void setTurretAngles(double angle) {
     io.setTurretAngle(angle);
     io.setTargetTurretAngle(angle);

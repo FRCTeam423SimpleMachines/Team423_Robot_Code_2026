@@ -24,6 +24,12 @@ public final class FieldConstants {
   public static final double DEPOT_HEIGHT = 0.0;
   public static final double OUTPOST_HEIGHT = 0.0;
 
+  public static final double HUB_LED = 0.77;
+  public static final double RED_OUTPOST_LED = 0.07;
+  public static final double BLUE_OUTPOST_LED = 0.27;
+  public static final double RED_DEPOT_LED = 0.01;
+  public static final double BLUE_DEPOT_LED = 0.21;
+
   public static Pose2d getTargetPose(FieldTarget target, DriverStation.Alliance alliance) {
     switch (target) {
       case HUB:
@@ -32,6 +38,19 @@ public final class FieldConstants {
         return alliance == DriverStation.Alliance.Red ? RED_OUTPOST_POSE : BLUE_OUTPOST_POSE;
       case DEPOT:
         return alliance == DriverStation.Alliance.Red ? RED_DEPOT_POSE2D : BLUE_DEPOT_POSE2D;
+      default:
+        throw new IllegalArgumentException("Unknown target: " + target);
+    }
+  }
+
+  public static double getTargetLED(FieldTarget target, DriverStation.Alliance alliance) {
+    switch (target) {
+      case HUB:
+        return HUB_LED;
+      case OUTPOST:
+        return alliance == DriverStation.Alliance.Red ? RED_OUTPOST_LED : BLUE_OUTPOST_LED;
+      case DEPOT:
+        return alliance == DriverStation.Alliance.Red ? RED_DEPOT_LED : BLUE_DEPOT_LED;
       default:
         throw new IllegalArgumentException("Unknown target: " + target);
     }

@@ -2,6 +2,7 @@ package frc.robot.subsystems.turret;
 
 public class TurretConstants {
   public static final int turretCanID = 60;
+  public static final int blinkinID = 0;
 
   public static final double turretkP = 0.8;
   public static final double turretkI = 0.1;

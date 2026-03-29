@@ -28,6 +28,8 @@ public interface TurretIO {
 
   public default void setFieldTarget(FieldTarget target) {}
 
+  public default void setLights(double pattern) {}
+
   public default FieldTarget getFieldTarget() {
     return FieldTarget.HUB;
   }
