@@ -5,11 +5,11 @@ import frc.robot.subsystems.intake.Intake;
 
 public class RunIntakeLift extends Command {
   private final Intake intake;
-  private double speed;
+  private double angle;
 
-  public RunIntakeLift(Intake intake, double speed) {
+  public RunIntakeLift(Intake intake, double angle) {
     this.intake = intake;
-    this.speed = speed;
+    this.angle = angle;
     addRequirements(intake);
   }
 
@@ -18,7 +18,7 @@ public class RunIntakeLift extends Command {
 
   @Override
   public void execute() {
-    intake.runIntakeLift(speed);
+    intake.runIntakeLift(angle);
   }
 
   @Override

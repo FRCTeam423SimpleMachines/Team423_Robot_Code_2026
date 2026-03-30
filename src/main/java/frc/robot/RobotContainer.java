@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.FieldConstants.FieldTarget;
 import frc.robot.commands.Aimbot;
+import frc.robot.commands.Coast;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunIntake;
@@ -165,11 +166,14 @@ public class RobotContainer {
     }
 
     // Register Named Commands
-    NamedCommands.registerCommand("Aimbot", new Aimbot(drive, turret, FieldTarget.HUB));
+    NamedCommands.registerCommand("Aim Hub", new Aimbot(drive, turret, FieldTarget.HUB));
+    NamedCommands.registerCommand("Aim Depot", new Aimbot(drive, turret, FieldTarget.DEPOT));
+    NamedCommands.registerCommand("Aim Outpost", new Aimbot(drive, turret, FieldTarget.OUTPOST));
     NamedCommands.registerCommand("Intake", new ToggleIntake(intake));
-    // replace with command to run intake down/up, rather than to a position
-    // NamedCommands.registerCommand("IntakeDown", intake.setIntakePosition(0.0));
-    // NamedCommands.registerCommand("IntakeUp", intake.setIntakePosition(-0.5));
+    NamedCommands.registerCommand("Shoot", new Shoot(drive, shooter, turret));
+    NamedCommands.registerCommand("Index", new RunIndexer(indexer, -70.0));
+    NamedCommands.registerCommand("IntakeDown", new RunIntakeLift(intake, -1.0));
+    NamedCommands.registerCommand("IntakeDown", new RunIntakeLift(intake, 1.0));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -209,6 +213,8 @@ public class RobotContainer {
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
     intake.setDefaultCommand(new RunIntake(intake, -0.3));
+
+    shooter.setDefaultCommand(new Coast(shooter));
 
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));

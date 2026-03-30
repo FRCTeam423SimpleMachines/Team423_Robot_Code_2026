@@ -40,7 +40,7 @@ public class Intake extends SubsystemBase {
     return run(() -> io.setIntakeAngle(position));
   }
 
-  public void runIntakeLift(double speed) {
-    io.runIntakeLift(speed);
+  public void runIntakeLift(double angle) {
+    io.setIntakeAngle(angle);
   }
 }
