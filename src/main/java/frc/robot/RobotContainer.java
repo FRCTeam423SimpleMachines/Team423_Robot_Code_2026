@@ -217,8 +217,8 @@ public class RobotContainer {
     shooter.setDefaultCommand(new Coast(shooter));
 
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
-    controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
-    controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
+    controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
+    controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
     controller.y().onTrue(new RunCommand(() -> turret.setTurretAngles(0.0)));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
