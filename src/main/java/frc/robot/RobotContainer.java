@@ -171,9 +171,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim Outpost", new Aimbot(drive, turret, FieldTarget.OUTPOST));
     NamedCommands.registerCommand("Intake", new ToggleIntake(intake));
     NamedCommands.registerCommand("Shoot", new Shoot(drive, shooter, turret));
-    NamedCommands.registerCommand("Index", new RunIndexer(indexer, -70.0));
+    NamedCommands.registerCommand("Index", new RunIndexer(indexer, 100.0));
     NamedCommands.registerCommand("IntakeDown", new RunIntakeLift(intake, -1.0));
-    NamedCommands.registerCommand("IntakeDown", new RunIntakeLift(intake, 1.0));
+    NamedCommands.registerCommand("IntakeUp", new RunIntakeLift(intake, 1.0));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -205,10 +205,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Default command, normal field-relative drive
+    // Default command, normal field-relative drive. Hold button 1 on stick2 to drive at half speed.
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
-            drive, () -> -stick1.getY(), () -> -stick1.getX(), () -> -stick2.getX()));
+            drive,
+            () -> -stick1.getY() * (stick2.button(1).getAsBoolean() ? 0.5 : 1.0),
+            () -> -stick1.getX() * (stick2.button(1).getAsBoolean() ? 0.5 : 1.0),
+            () -> -stick2.getX() * (stick2.button(1).getAsBoolean() ? 0.5 : 1.0)));
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
