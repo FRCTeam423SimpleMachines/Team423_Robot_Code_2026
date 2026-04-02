@@ -259,7 +259,7 @@ public class RobotContainer {
     // controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, -70.0));
 
     controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
-    controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, -100.0));
+    controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
 
     controller.back().onTrue(new ToggleIntake(intake));
     controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));
