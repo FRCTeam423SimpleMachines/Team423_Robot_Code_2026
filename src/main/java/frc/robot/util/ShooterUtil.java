@@ -68,7 +68,7 @@ public class ShooterUtil {
       return 0.0;
     }
 
-    double rpm = v * 60.0 / (2.0 * Math.PI * wheelRadius);
+    double rpm = v * 60.0 / (2.0 * Math.PI * wheelRadius) * ShooterConstants.slipCoefficient;
     if (Double.isNaN(rpm) || rpm <= 0.0) {
       return 0.0;
     }
