@@ -26,5 +26,4 @@ public class Coast extends Command {
   public boolean isFinished() {
     return false;
   }
-    
 }
