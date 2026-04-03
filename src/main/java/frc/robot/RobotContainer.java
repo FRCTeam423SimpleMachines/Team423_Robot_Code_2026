@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -27,7 +26,6 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunIntakeLift;
-import frc.robot.commands.SearchAndDestroy;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.generated.TunerConstants;
@@ -219,13 +217,15 @@ public class RobotContainer {
 
     shooter.setDefaultCommand(new Coast(shooter));
 
+    indexer.setDefaultCommand(new RunIndexer(indexer, 0.0));
+
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
     controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
     controller.y().onTrue(new RunCommand(() -> turret.setTurretAngles(0.0)));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
-    //stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
+    // stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));
     // Lock to 0° when mid button is held
     stick1
         .button(4)
@@ -261,8 +261,8 @@ public class RobotContainer {
     controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
     controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, 100.0));
 
-    //controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
-    //controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
+    // controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
+    // controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
 
     controller.back().onTrue(new ToggleIntake(intake));
     controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));

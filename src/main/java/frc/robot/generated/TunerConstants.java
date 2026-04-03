@@ -27,8 +27,8 @@ public class TunerConstants {
           .withKP(100)
           .withKI(0)
           .withKD(0.5)
-          .withKS(0.1)
-          .withKV(1.50)
+          .withKS(0.41963)
+          .withKV(4.30853)
           .withKA(0)
           .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
   // When using closed-loop control, the drive motor uses the control
@@ -57,7 +57,7 @@ public class TunerConstants {
 
   // The stator current at which the wheels start to slip;
   // This needs to be tuned to your individual robot
-  private static final Current kSlipCurrent = Amps.of(120);
+  private static final Current kSlipCurrent = Amps.of(55.0);
 
   // Initial configs for the drive and steer motors and the azimuth encoder; these cannot be null.
   // Some configs will be overwritten; check the `with*InitialConfigs()` API documentation.

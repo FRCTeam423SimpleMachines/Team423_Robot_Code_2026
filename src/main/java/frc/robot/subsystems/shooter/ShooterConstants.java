@@ -30,5 +30,6 @@ public class ShooterConstants {
 
   public static final double PredictionLoops = 10.0;
 
-  public static final double slipCoefficient = 2.7;
+  // public static final double slipCoefficient = 2.7;
+  public static final double slipCoefficient = 2.5;
 }
