@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class TurretIOReal implements TurretIO {
@@ -14,6 +15,8 @@ public class TurretIOReal implements TurretIO {
   private final Spark m_blinkin;
 
   private final DigitalInput homeFlag;
+
+  private DriverStation.Alliance alliance;
 
   private static final Slot0Configs turretGains =
       new Slot0Configs()
@@ -37,6 +40,7 @@ public class TurretIOReal implements TurretIO {
     inputs.turretAngle = getTurretAngle();
     inputs.turretTargetAngle = TurretTargetAngle;
     inputs.magnet1 = homeFlag.get();
+    inputs.alliance = alliance;
   }
 
   @Override
@@ -82,5 +86,10 @@ public class TurretIOReal implements TurretIO {
   public void setTurretAngles(double angle) {
     setTargetTurretAngle(angle);
     setTurretAngle(angle);
+  }
+
+  @Override
+  public void setAlliance(DriverStation.Alliance alliance) {
+    this.alliance = alliance;
   }
 }

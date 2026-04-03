@@ -32,9 +32,9 @@ public class IntakeIOSpark implements IntakeIO {
 
   @Override
   public void setSpeed(double speed) {
-    //if (state) {
-      m_intakeMotor.set(speed);
-    //}
+    // if (state) {
+    m_intakeMotor.set(speed);
+    // }
   }
 
   @Override

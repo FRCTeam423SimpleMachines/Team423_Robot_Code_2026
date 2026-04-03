@@ -1,5 +1,6 @@
 package frc.robot.subsystems.turret;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.FieldConstants.FieldTarget;
 import org.littletonrobotics.junction.Logger;
@@ -39,6 +40,10 @@ public class Turret extends SubsystemBase {
 
   public FieldTarget getFieldTarget() {
     return io.getFieldTarget();
+  }
+
+  public void setAlliance(DriverStation.Alliance alliance) {
+    io.setAlliance(alliance);
   }
 
   @Override

@@ -15,28 +15,17 @@ public class Aimbot extends Command {
   private final Turret turret;
   private Pose2d targetPose;
   private double pattern;
+  private FieldConstants.FieldTarget target;
 
   public Aimbot(Drive drive, Turret turret, FieldConstants.FieldTarget target) {
     this.turret = turret;
     this.drive = drive;
-    Optional<Alliance> ally = DriverStation.getAlliance();
-    Alliance alliance;
-    if (ally.isPresent()) {
-      alliance = ally.get();
-    } else {
-      alliance = DriverStation.Alliance.Red; // default to red if alliance is unknown
-    }
-    this.targetPose = FieldConstants.getTargetPose(target, alliance);
-    this.pattern = FieldConstants.getTargetLED(target, alliance);
-    turret.setFieldTarget(target);
+    this.target = target;
     addRequirements(turret);
   }
 
   @Override
-  public void initialize() {
-    // no clue what I want here honestly, you want to command to continuously update so getting
-    // angle and stuff here is a bad idea
-  }
+  public void initialize() {}
 
   // Control logic: While button held
   // set shooter state to be: turret(drive.getAngleToHub) and shooterSpeed(drive.getSpeedForHub)
@@ -45,7 +34,15 @@ public class Aimbot extends Command {
   public void execute() {
     // turretAngle = shooter.getTurretAngle();
     // shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
-
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    Alliance alliance;
+    if (ally.isPresent()) {
+      alliance = ally.get();
+      this.targetPose = FieldConstants.getTargetPose(target, alliance);
+      this.pattern = FieldConstants.getTargetLED(target, alliance);
+      turret.setFieldTarget(target);
+      turret.setAlliance(alliance);
+    }
     double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose);
     turret.setTargetTurretAngle(targetAngle);
     turret.setTurretAngle(targetAngle);

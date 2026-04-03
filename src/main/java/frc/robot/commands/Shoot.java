@@ -14,21 +14,14 @@ import java.util.Optional;
 public class Shoot extends Command {
   private final Drive drive;
   private final Shooter shooter;
+  private final Turret turret;
   private Pose2d targetPose;
   private double targetHeight;
 
   public Shoot(Drive drive, Shooter shooter, Turret turret) {
-    Optional<Alliance> ally = DriverStation.getAlliance();
-    Alliance alliance;
-    if (ally.isPresent()) {
-      alliance = ally.get();
-    } else {
-      alliance = DriverStation.Alliance.Red; // default to red if alliance is unknown
-    }
-    this.targetPose = FieldConstants.getTargetPose(turret.getFieldTarget(), alliance);
-    this.targetHeight = FieldConstants.getTargetHeight(turret.getFieldTarget());
     this.drive = drive;
     this.shooter = shooter;
+    this.turret = turret;
     addRequirements(shooter);
   }
 
@@ -37,6 +30,13 @@ public class Shoot extends Command {
 
   @Override
   public void execute() {
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    Alliance alliance;
+    if (ally.isPresent()) {
+      alliance = ally.get();
+      this.targetPose = FieldConstants.getTargetPose(turret.getFieldTarget(), alliance);
+      this.targetHeight = FieldConstants.getTargetHeight(turret.getFieldTarget());
+    }
     double RPM = ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight);
     shooter.runAtTarget(RPM);
   }

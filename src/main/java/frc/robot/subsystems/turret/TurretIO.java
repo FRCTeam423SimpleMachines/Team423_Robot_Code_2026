@@ -1,5 +1,7 @@
 package frc.robot.subsystems.turret;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.FieldConstants.FieldTarget;
 import org.littletonrobotics.junction.AutoLog;
 
@@ -10,6 +12,7 @@ public interface TurretIO {
     public double turretTargetAngle = 0;
     public double turretAngle = 0;
     public boolean magnet1 = false;
+    public Alliance alliance = Alliance.Red;
   }
 
   public default void updateInputs(TurretIOInputs inputs) {}
@@ -35,4 +38,6 @@ public interface TurretIO {
   }
 
   public default void zeroTurret() {}
+
+  public default void setAlliance(DriverStation.Alliance alliance) {}
 }
