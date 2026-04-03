@@ -213,7 +213,7 @@ public class RobotContainer {
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
-    intake.setDefaultCommand(new RunIntake(intake, -0.3));
+ //   intake.setDefaultCommand(new RunIntake(intake, -0.3));
 
     shooter.setDefaultCommand(new Coast(shooter));
 
@@ -254,9 +254,9 @@ public class RobotContainer {
     // stick2.button(10).onTrue(new Climb(climber, 250.0));
 
     // Add intake up/down motor control (FIGURE OUT WHAT DOWN AND UP ARE)
-    controller.povDown().whileTrue(new RunIntakeLift(intake, -0.2));
-    controller.povUp().whileTrue(new RunIntakeLift(intake, 0.2));
-    controller.povLeft().onTrue(new RunIntakeLift(intake, 0.0));
+    controller.povDown().whileTrue(new RunIntakeLift(intake, 40));
+    // controller.povUp().whileTrue(new RunIntakeLift(intake, 0.2));
+    // controller.povLeft().onTrue(new RunIntakeLift(intake, 0.0));
 
     controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
     controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, 100.0));
@@ -264,8 +264,8 @@ public class RobotContainer {
     // controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
     // controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
 
-    controller.back().onTrue(new ToggleIntake(intake));
-    controller.start().onTrue(new RunCommand(() -> shooter.setTargetState(0.0)));
+    controller.back().onTrue(new RunIntake(intake, 0.0));
+    controller.start().onTrue(new RunIntake(intake, -0.3));
   }
 
   /**
