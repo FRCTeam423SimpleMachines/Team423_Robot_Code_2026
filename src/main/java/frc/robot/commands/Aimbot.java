@@ -25,15 +25,7 @@ public class Aimbot extends Command {
   }
 
   @Override
-  public void initialize() {}
-
-  // Control logic: While button held
-  // set shooter state to be: turret(drive.getAngleToHub) and shooterSpeed(drive.getSpeedForHub)
-  // REMEMBER TO ADD THE OFFSET FROM TURRET TO ROBOT
-  @Override
-  public void execute() {
-    // turretAngle = shooter.getTurretAngle();
-    // shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
+  public void initialize() {
     Optional<Alliance> ally = DriverStation.getAlliance();
     Alliance alliance;
     if (ally.isPresent()) {
@@ -43,6 +35,16 @@ public class Aimbot extends Command {
       turret.setFieldTarget(target);
       turret.setAlliance(alliance);
     }
+  }
+
+  // Control logic: While button held
+  // set shooter state to be: turret(drive.getAngleToHub) and shooterSpeed(drive.getSpeedForHub)
+  // REMEMBER TO ADD THE OFFSET FROM TURRET TO ROBOT
+  @Override
+  public void execute() {
+    // turretAngle = shooter.getTurretAngle();
+    // shooter.setTargetState(ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight));
+
     double targetAngle = ShooterUtil.getRobotAngleToPose(drive, targetPose);
     turret.setTargetTurretAngle(targetAngle);
     turret.setTurretAngle(targetAngle);

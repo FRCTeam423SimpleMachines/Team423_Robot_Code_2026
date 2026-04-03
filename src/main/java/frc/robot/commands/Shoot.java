@@ -26,10 +26,7 @@ public class Shoot extends Command {
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
-  public void execute() {
+  public void initialize() {
     Optional<Alliance> ally = DriverStation.getAlliance();
     Alliance alliance;
     if (ally.isPresent()) {
@@ -37,6 +34,10 @@ public class Shoot extends Command {
       this.targetPose = FieldConstants.getTargetPose(turret.getFieldTarget(), alliance);
       this.targetHeight = FieldConstants.getTargetHeight(turret.getFieldTarget());
     }
+  }
+
+  @Override
+  public void execute() {
     double RPM = ShooterUtil.calculateRPMForDistance(drive, targetPose, targetHeight);
     shooter.runAtTarget(RPM);
   }

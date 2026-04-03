@@ -27,8 +27,8 @@ public class TunerConstants {
           .withKP(100)
           .withKI(0)
           .withKD(0.5)
-          .withKS(0.41963)
-          .withKV(4.30853)
+          .withKS(0.1)
+          .withKV(1.5)
           .withKA(0)
           .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
   // When using closed-loop control, the drive motor uses the control
