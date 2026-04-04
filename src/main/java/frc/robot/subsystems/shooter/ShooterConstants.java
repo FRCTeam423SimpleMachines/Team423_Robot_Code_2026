@@ -28,8 +28,8 @@ public class ShooterConstants {
   // distance is within +/- this tolerance of the strict threshold will be allowed.
   public static final double shooterRangeToleranceMeters = 0.5;
 
-  public static final double PredictionLoops = 10.0;
+  public static final double PredictionLoops = 4.0;
 
-  // public static final double slipCoefficient = 2.7;
-  public static final double slipCoefficient = 2.5;
+  public static final double slipCoefficient = 2.7;
+  // public static final double slipCoefficient = 2.5;
 }
