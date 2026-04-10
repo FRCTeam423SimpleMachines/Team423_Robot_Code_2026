@@ -27,6 +27,7 @@ import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunIntakeLift;
 import frc.robot.commands.Shoot;
+import frc.robot.commands.SimpleShoot;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
@@ -213,7 +214,7 @@ public class RobotContainer {
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
-     intake.setDefaultCommand(new RunIntake(intake, -0.5));
+    intake.setDefaultCommand(new RunIntake(intake, -0.5));
 
     shooter.setDefaultCommand(new Coast(shooter));
 
@@ -259,6 +260,7 @@ public class RobotContainer {
     controller.povLeft().onTrue(new RunIntakeLift(intake, 0.0));
 
     controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
+    controller.leftBumper().whileTrue(new SimpleShoot(shooter, 100.0));
     controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, 100.0));
 
     // controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
