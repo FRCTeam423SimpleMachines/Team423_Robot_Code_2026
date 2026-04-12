@@ -255,7 +255,7 @@ public class RobotContainer {
     // stick2.button(10).onTrue(new Climb(climber, 250.0));
 
     // Add intake up/down motor control (FIGURE OUT WHAT DOWN AND UP ARE)
-    controller.povDown().whileTrue(new RunIntakeLift(intake, 40));
+    controller.povDown().whileTrue(new RunIntakeLift(intake, -40));
     // controller.povUp().whileTrue(new RunIntakeLift(intake, 0.2));
     controller.povLeft().onTrue(new RunIntakeLift(intake, 0.0));
 
@@ -267,7 +267,7 @@ public class RobotContainer {
     // controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
 
     controller.back().onTrue(new RunIntake(intake, 0.0));
-    controller.start().onTrue(new RunIntake(intake, -0.5));
+    controller.start().onTrue(new RunIntake(intake, -0.3));
   }
 
   /**
