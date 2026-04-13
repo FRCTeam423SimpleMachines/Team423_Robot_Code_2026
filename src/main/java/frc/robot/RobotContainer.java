@@ -208,9 +208,10 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
-            () -> -stick1.getY() * (stick2.button(1).getAsBoolean() ? 0.5 : 1.0),
-            () -> -stick1.getX() * (stick2.button(1).getAsBoolean() ? 0.5 : 1.0),
-            () -> -stick2.getX() * (stick2.button(1).getAsBoolean() ? 0.5 : 1.0)));
+            () -> -stick1.getY(),
+            () -> -stick1.getX(),
+            () -> -stick2.getX(),
+            () -> (stick2.button(1).getAsBoolean() ? 0.5 : 1.0)));
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
