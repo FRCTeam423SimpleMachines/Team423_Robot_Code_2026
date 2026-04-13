@@ -23,6 +23,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -42,7 +43,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.util.LocalADStarAK;
+import frc.robot.util.ShooterUtil;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -97,6 +102,7 @@ public class Drive extends SubsystemBase {
       };
   private SwerveDrivePoseEstimator poseEstimator =
       new SwerveDrivePoseEstimator(kinematics, rawGyroRotation, lastModulePositions, Pose2d.kZero);
+  private Pose2d predictedShooterPose = Pose2d.kZero;
 
   public Drive(
       GyroIO gyroIO,
@@ -202,6 +208,26 @@ public class Drive extends SubsystemBase {
 
       // Apply update
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
+
+      //Update predicted shooter pose
+      double dt = 0.020; // 20 milliseconds
+      double prediction = ShooterConstants.PredictionLoops;
+      double dx = getChassisSpeeds().vxMetersPerSecond * dt * prediction;
+      double dy = getChassisSpeeds().vyMetersPerSecond * dt * prediction;
+      double dtheta = getChassisSpeeds().omegaRadiansPerSecond * dt * prediction;
+
+      Transform2d predictedTransform =
+          new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));
+
+      Pose2d predictedPose = getPose().transformBy(predictedTransform);
+
+      // Apply shooter offset so callers receive the shooter exit Pose2d directly.
+      Transform2d shooterOffsetTransform =
+          new Transform2d(
+              new Translation2d(
+                  ShooterConstants.shooterOffsetXMeters, ShooterConstants.shooterOffsetYMeters),
+              new Rotation2d());
+      predictedShooterPose = predictedPose.transformBy(shooterOffsetTransform);
     }
 
     // Update gyro alert
@@ -359,5 +385,9 @@ public class Drive extends SubsystemBase {
 
   public double getLinearSpeed() {
     return Math.hypot(getChassisSpeeds().vxMetersPerSecond, getChassisSpeeds().vyMetersPerSecond);
+  }
+
+  public Pose2d getPredictedShooterPose() {
+    return predictedShooterPose;
   }
 }

@@ -1,10 +1,6 @@
 package frc.robot.util;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.shooter.ShooterConstants;
 import org.photonvision.PhotonUtils;
@@ -13,20 +9,18 @@ public class ShooterUtil {
   public static double calculateRPMForDistance(
       Drive drive, Pose2d targetPose, double targetHeight) {
     // getPredictedPose now returns the shooter exit pose (robot prediction + shooter offsets)
-    Pose2d shooterPose = getPredictedPose(drive);
+    Pose2d shooterPose = drive.getPredictedShooterPose();
     double distanceFromTarget = PhotonUtils.getDistanceToPose(shooterPose, targetPose);
 
     // Shooter geometry and launch angle
-    double theta = ShooterConstants.shooterAngle; // radians
+    double tanTheta = ShooterConstants.tanTheta; // radians
+    double cosTheta = ShooterConstants.cosTheta; // radians
     double shooterExitHeight = ShooterConstants.shooterHeight; // meters
 
     // Vertical difference between target and shooter exit
     double h = targetHeight - shooterExitHeight;
 
     final double g = 9.81; // gravity (m/s^2)
-
-    double cosTheta = Math.cos(theta);
-    double tanTheta = Math.tan(theta);
 
     // Forbid ascending impacts: for our fixed launch angle theta and vertical offset h,
     // the impact is descending iff d > 2*h / tan(theta). Apply a tolerance so shots
@@ -82,35 +76,6 @@ public class ShooterUtil {
   }
 
   public static double getRobotAngleToPose(Drive drive, Pose2d targetPose) {
-    Pose2d shooterPose = getPredictedPose(drive);
-    return PhotonUtils.getYawToPose(shooterPose, targetPose).getDegrees();
-  }
-
-  public static Pose2d getPredictedPose(Drive drive) {
-
-    Pose2d currentPose = drive.getPose();
-
-    // Predict where the robot will be in 20 ms using measured chassis speeds
-    ChassisSpeeds speeds = drive.getChassisSpeeds();
-    double dt = 0.020; // 20 milliseconds
-    double prediction = ShooterConstants.PredictionLoops;
-    double dx = speeds.vxMetersPerSecond * dt * prediction;
-    double dy = speeds.vyMetersPerSecond * dt * prediction;
-    double dtheta = speeds.omegaRadiansPerSecond * dt * prediction;
-
-    Transform2d predictedTransform =
-        new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));
-
-    Pose2d predictedPose = currentPose.transformBy(predictedTransform);
-
-    // Apply shooter offset so callers receive the shooter exit Pose2d directly.
-    Transform2d shooterOffsetTransform =
-        new Transform2d(
-            new Translation2d(
-                ShooterConstants.shooterOffsetXMeters, ShooterConstants.shooterOffsetYMeters),
-            new Rotation2d());
-
-    Pose2d shooterPose = predictedPose.transformBy(shooterOffsetTransform);
-    return shooterPose;
+    return PhotonUtils.getYawToPose(drive.getPredictedShooterPose(), targetPose).getDegrees();
   }
 }
