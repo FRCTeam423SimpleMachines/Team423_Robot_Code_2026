@@ -20,10 +20,8 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,7 +29,6 @@ import frc.robot.subsystems.vision.VisionIO.PoseObservationType;
 import java.util.LinkedList;
 import java.util.List;
 import org.littletonrobotics.junction.Logger;
-import org.photonvision.PhotonUtils;
 
 public class Vision extends SubsystemBase {
   private final VisionConsumer consumer;
@@ -65,31 +62,6 @@ public class Vision extends SubsystemBase {
    */
   public Rotation2d getTargetX(int cameraIndex) {
     return inputs[cameraIndex].latestTargetObservation.tx();
-  }
-
-  public double getTargetYaw() {
-    return inputs[0].ballTargetObservation.tx().getDegrees();
-  }
-
-  public boolean getHasTargets() {
-    return inputs[0].hasBall;
-  }
-
-  public Translation2d getTranslationToBall() {
-    double distance =
-        (VisionConstants.robotToCameraBack.getZ() - Units.inchesToMeters(3.0))
-            / Math.tan(Math.abs(inputs[0].ballTargetObservation.ty().getRadians()));
-    return PhotonUtils.estimateCameraToTargetTranslation(
-        distance, inputs[0].ballTargetObservation.tx());
-  }
-
-  /** Returns camera-frame translations to all detected balls for camera 0. */
-  public java.util.List<Translation2d> getTranslationsToBalls() {
-    java.util.List<Translation2d> out = new java.util.LinkedList<>();
-    for (var t : inputs[0].ballTranslations) {
-      out.add(t);
-    }
-    return out;
   }
 
   @Override

@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -29,6 +28,7 @@ import frc.robot.commands.RunIntakeLift;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SimpleShoot;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.ZeroTurret;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -211,11 +211,11 @@ public class RobotContainer {
             () -> -stick1.getY(),
             () -> -stick1.getX(),
             () -> -stick2.getX(),
-            () -> (stick2.button(1).getAsBoolean() ? 0.5 : 1.0)));
+            () -> (stick2.button(1).getAsBoolean() ? 0.25 : 1.0)));
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
-    intake.setDefaultCommand(new RunIntake(intake, -0.5));
+    intake.setDefaultCommand(new RunIntake(intake, -0.3));
 
     shooter.setDefaultCommand(new Coast(shooter));
 
@@ -224,7 +224,7 @@ public class RobotContainer {
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
     controller.x().onTrue(new Aimbot(drive, turret, FieldTarget.OUTPOST));
-    controller.y().onTrue(new RunCommand(() -> turret.setTurretAngles(0.0)));
+    controller.y().onTrue(new ZeroTurret(turret));
     // Repeat SearchAndDestroy while Y is held. RepeatCommand will repeatedly schedule
     // new instances of SearchAndDestroy until the outer binding is released.
     // stick1.button(2).whileTrue(new RepeatCommand(new SearchAndDestroy(drive, vision)));

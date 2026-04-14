@@ -43,11 +43,8 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterConstants;
 import frc.robot.util.LocalADStarAK;
-import frc.robot.util.ShooterUtil;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -209,12 +206,12 @@ public class Drive extends SubsystemBase {
       // Apply update
       poseEstimator.updateWithTime(sampleTimestamps[i], rawGyroRotation, modulePositions);
 
-      //Update predicted shooter pose
+      // Update predicted shooter pose
       double dt = 0.020; // 20 milliseconds
       double prediction = ShooterConstants.PredictionLoops;
       double dx = getChassisSpeeds().vxMetersPerSecond * dt * prediction;
       double dy = getChassisSpeeds().vyMetersPerSecond * dt * prediction;
-      double dtheta = getChassisSpeeds().omegaRadiansPerSecond * dt * prediction;
+      double dtheta = getChassisSpeeds().omegaRadiansPerSecond * dt * (prediction / 4.0);
 
       Transform2d predictedTransform =
           new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));

@@ -78,21 +78,21 @@ public class DriveCommands {
           // Square rotation value for more precise control
           omega = Math.copySign(omega * omega, omega);
 
-      // Convert to field relative speeds
-      ChassisSpeeds speeds =
-        new ChassisSpeeds(
-          linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
-          linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
-          omega * drive.getMaxAngularSpeedRadPerSec());
+          // Convert to field relative speeds
+          ChassisSpeeds speeds =
+              new ChassisSpeeds(
+                  linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec(),
+                  linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec(),
+                  omega * drive.getMaxAngularSpeedRadPerSec());
 
-      // Apply optional throttle (scale final speeds). This preserves the deadband
-      // and squared sensitivity mapping while allowing a global speed scale.
-      double throttle = throttleSupplier.getAsDouble();
-      speeds =
-        new ChassisSpeeds(
-          speeds.vxMetersPerSecond * throttle,
-          speeds.vyMetersPerSecond * throttle,
-          speeds.omegaRadiansPerSecond * throttle);
+          // Apply optional throttle (scale final speeds). This preserves the deadband
+          // and squared sensitivity mapping while allowing a global speed scale.
+          double throttle = throttleSupplier.getAsDouble();
+          speeds =
+              new ChassisSpeeds(
+                  speeds.vxMetersPerSecond * throttle,
+                  speeds.vyMetersPerSecond * throttle,
+                  speeds.omegaRadiansPerSecond * throttle);
           boolean isFlipped =
               DriverStation.getAlliance().isPresent()
                   && DriverStation.getAlliance().get() == Alliance.Red;

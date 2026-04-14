@@ -15,10 +15,10 @@ public final class FieldConstants {
 
   public static final Pose2d BLUE_HUB_POSE = new Pose2d(4.6, 4.0, new Rotation2d());
   public static final Pose2d RED_HUB_POSE = new Pose2d(11.9, 4.0, new Rotation2d());
-  public static final Pose2d BLUE_OUTPOST_POSE = new Pose2d(2.0, 6.0, new Rotation2d());
-  public static final Pose2d RED_OUTPOST_POSE = new Pose2d(11.4, 2.0, new Rotation2d());
-  public static final Pose2d BLUE_DEPOT_POSE2D = new Pose2d(2.0, 2.0, new Rotation2d());
-  public static final Pose2d RED_DEPOT_POSE2D = new Pose2d(11.4, 6.0, new Rotation2d());
+  public static final Pose2d BLUE_OUTPOST_POSE = new Pose2d(0.1, 6.0, new Rotation2d());
+  public static final Pose2d RED_OUTPOST_POSE = new Pose2d(16.5, 2.0, new Rotation2d());
+  public static final Pose2d BLUE_DEPOT_POSE2D = new Pose2d(0.1, 2.0, new Rotation2d());
+  public static final Pose2d RED_DEPOT_POSE2D = new Pose2d(16.5, 6.0, new Rotation2d());
 
   public static final double HUB_HEIGHT = Units.inchesToMeters(72.0);
   public static final double DEPOT_HEIGHT = 0.0;

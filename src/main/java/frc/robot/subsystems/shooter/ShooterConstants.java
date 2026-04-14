@@ -23,7 +23,7 @@ public class ShooterConstants {
   // Offset of the shooter exit relative to the robot pose (robot coordinate frame):
   // +X is forward, +Y is to the left (WPILib standard). Adjust these to match your
   // real robot measurement. Default 0 means shooter is at robot origin.
-  public static final double shooterOffsetXMeters = Units.inchesToMeters(5.0);
+  public static final double shooterOffsetXMeters = Units.inchesToMeters(2.0);
   public static final double shooterOffsetYMeters = Units.inchesToMeters(0.0);
 
   // Tolerance (meters) used when checking descending-impact threshold. A shot whose
@@ -32,6 +32,6 @@ public class ShooterConstants {
 
   public static final double PredictionLoops = 75.0;
 
-  public static final double slipCoefficient = 2.9;
+  public static final double slipCoefficient = 2.85;
   // public static final double slipCoefficient = 2.5;
 }
