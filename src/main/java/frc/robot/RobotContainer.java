@@ -215,7 +215,7 @@ public class RobotContainer {
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
-    intake.setDefaultCommand(new RunIntake(intake, -0.3));
+    intake.setDefaultCommand(new RunIntake(intake, -0.4));
 
     shooter.setDefaultCommand(new Coast(shooter));
 
@@ -268,7 +268,7 @@ public class RobotContainer {
     // controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
 
     controller.back().onTrue(new RunIntake(intake, 0.0));
-    controller.start().onTrue(new RunIntake(intake, -0.3));
+    controller.start().onTrue(new RunIntake(intake, -0.4));
   }
 
   /**

@@ -211,7 +211,7 @@ public class Drive extends SubsystemBase {
       double prediction = ShooterConstants.PredictionLoops;
       double dx = getChassisSpeeds().vxMetersPerSecond * dt * prediction;
       double dy = getChassisSpeeds().vyMetersPerSecond * dt * prediction;
-      double dtheta = getChassisSpeeds().omegaRadiansPerSecond * dt * (prediction / 4.0);
+      double dtheta = getChassisSpeeds().omegaRadiansPerSecond * dt * (prediction);
 
       Transform2d predictedTransform =
           new Transform2d(new Translation2d(dx, dy), new Rotation2d(dtheta));
