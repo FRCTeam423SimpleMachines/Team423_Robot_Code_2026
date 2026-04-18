@@ -18,6 +18,10 @@ public interface IntakeIO {
 
   public default void setIntakeAngle(double angle) {}
 
+  public default double getSpeed() {
+    return 0.0;
+  }
+
   public default void toggleState() {}
 
   public default void runIntakeLift(double speed) {}

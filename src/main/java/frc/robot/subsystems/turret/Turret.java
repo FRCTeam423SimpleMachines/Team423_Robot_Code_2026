@@ -46,6 +46,10 @@ public class Turret extends SubsystemBase {
     io.setAlliance(alliance);
   }
 
+  public boolean lockedOn() {
+    return io.lockedOn();
+  }
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);

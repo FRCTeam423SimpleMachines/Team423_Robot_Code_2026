@@ -15,13 +15,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Start Depot"
+                        "pathName": "Start Anti-Daisy"
                       }
                     },
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Return Depot"
+                        "pathName": "Return Outpost Anti-Daisy"
                       }
                     }
                   ]
@@ -54,9 +54,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "Trench to Depot"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Trench to Outpost"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 4.0
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Outpost to Trench"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -109,7 +128,7 @@
       ]
     }
   },
-  "resetOdom": false,
+  "resetOdom": true,
   "folder": null,
   "choreoAuto": false
 }

@@ -28,6 +28,10 @@ public class Intake extends SubsystemBase {
     io.setSpeed(speed);
   }
 
+  public double getSpeed() {
+    return io.getSpeed();
+  }
+
   public void runIntake(double speed) {
     io.setSpeed(speed);
   }

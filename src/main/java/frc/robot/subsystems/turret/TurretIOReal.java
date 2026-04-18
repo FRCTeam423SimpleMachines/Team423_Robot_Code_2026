@@ -52,6 +52,11 @@ public class TurretIOReal implements TurretIO {
   }
 
   @Override
+  public boolean lockedOn() {
+    return (Math.abs(getTurretAngle() - TurretTargetAngle) < 20.0);
+  }
+
+  @Override
   public void zeroTurret() {
     m_turret.set(0.5);
     if (homeFlag.get()) {

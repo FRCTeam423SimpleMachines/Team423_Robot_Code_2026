@@ -38,6 +38,11 @@ public class IntakeIOSpark implements IntakeIO {
   }
 
   @Override
+  public double getSpeed() {
+    return m_intakeMotor.getEncoder().getVelocity();
+  }
+
+  @Override
   public void setIntakeAngle(double angle) {
     m_intakeMotor2.setControl(m_intake_request.withPosition(angle));
   }

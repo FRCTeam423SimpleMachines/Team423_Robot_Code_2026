@@ -25,9 +25,9 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.RunIndexer;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunIntakeLift;
+import frc.robot.commands.RunIntakePID;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.SimpleShoot;
-import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.ZeroTurret;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
@@ -168,11 +168,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("Aim Hub", new Aimbot(drive, turret, FieldTarget.HUB));
     NamedCommands.registerCommand("Aim Depot", new Aimbot(drive, turret, FieldTarget.DEPOT));
     NamedCommands.registerCommand("Aim Outpost", new Aimbot(drive, turret, FieldTarget.OUTPOST));
-    NamedCommands.registerCommand("Intake", new ToggleIntake(intake));
+    NamedCommands.registerCommand("Intake", new RunIntakePID(intake, -2600));
     NamedCommands.registerCommand("Shoot", new Shoot(drive, shooter, turret));
-    NamedCommands.registerCommand("Index", new RunIndexer(indexer, 100.0));
-    NamedCommands.registerCommand("IntakeDown", new RunIntakeLift(intake, 40));
-    NamedCommands.registerCommand("IntakeUp", new RunIntakeLift(intake, 1.0));
+    NamedCommands.registerCommand("Index", new RunIndexer(indexer, 100.0, turret));
+    NamedCommands.registerCommand("IntakeDown", new RunIntakeLift(intake, -40));
+    NamedCommands.registerCommand("IntakeUp", new RunIntakeLift(intake, 0));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -215,11 +215,11 @@ public class RobotContainer {
 
     // Change magic number to actual intake down position
     // intake.setDefaultCommand(intake.setIntakePosition(0.0));
-    intake.setDefaultCommand(new RunIntake(intake, -0.4));
-
+    // intake.setDefaultCommand(new RunIntake(intake, -0.4));
+    intake.setDefaultCommand(new RunIntakePID(intake, -2600.0));
     shooter.setDefaultCommand(new Coast(shooter));
 
-    indexer.setDefaultCommand(new RunIndexer(indexer, 0.0));
+    indexer.setDefaultCommand(new RunIndexer(indexer, 0.0, turret));
 
     controller.a().onTrue(new Aimbot(drive, turret, FieldTarget.HUB));
     controller.b().onTrue(new Aimbot(drive, turret, FieldTarget.DEPOT));
@@ -262,13 +262,13 @@ public class RobotContainer {
 
     controller.leftTrigger(0.4).whileTrue(new Shoot(drive, shooter, turret));
     controller.leftBumper().whileTrue(new SimpleShoot(shooter, 100.0));
-    controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, 100.0));
+    controller.rightTrigger(0.4).whileTrue(new RunIndexer(indexer, 100.0, turret));
 
     // controller.leftTrigger(0.4).onTrue(new Shoot(drive, shooter, turret));
     // controller.rightTrigger(0.4).onTrue(new RunIndexer(indexer, 100.0));
 
     controller.back().onTrue(new RunIntake(intake, 0.0));
-    controller.start().onTrue(new RunIntake(intake, -0.4));
+    controller.start().onTrue(new RunIntake(intake, -2600));
   }
 
   /**

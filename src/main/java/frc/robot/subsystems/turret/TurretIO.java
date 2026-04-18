@@ -21,6 +21,10 @@ public interface TurretIO {
     return 0.0;
   }
 
+  public default boolean lockedOn() {
+    return true;
+  }
+
   public default void setTurretAngle(double angle) {}
 
   public default void setTurretSpeed(double speed) {}

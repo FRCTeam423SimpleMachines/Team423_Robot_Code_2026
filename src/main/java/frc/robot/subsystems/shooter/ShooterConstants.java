@@ -14,7 +14,8 @@ public class ShooterConstants {
   public static final double shooterkS = 0.31;
   public static final double shooterkA = 0.41;
 
-  public static final double shooterAngle = Math.toRadians(60.0); // insert degrees number
+  // public static final double shooterAngle = Math.toRadians(60.0); // insert degrees number
+  public static final double shooterAngle = Math.toRadians(60.0);
   public static final double cosTheta = Math.cos(shooterAngle);
   public static final double tanTheta = Math.tan(shooterAngle);
   public static final double shooterHeight = Units.inchesToMeters(20.0);
@@ -30,8 +31,8 @@ public class ShooterConstants {
   // distance is within +/- this tolerance of the strict threshold will be allowed.
   public static final double shooterRangeToleranceMeters = 0.5;
 
-  public static final double PredictionLoops = 20.0;
+  public static final double PredictionLoops = 60.0;
 
-  public static final double slipCoefficient = 2.85;
+  public static final double slipCoefficient = 2.55;
   // public static final double slipCoefficient = 2.5;
 }
